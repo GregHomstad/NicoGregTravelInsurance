@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <path fill="#1E3A8A" d="M50 5L10 20v30c0 25 40 45 40 45s40-20 40-45V20L50 5z"/>
+    <path fill="#3B82F6" d="M50 5v90c0 0 40-20 40-45V20L50 5z"/>
+    <!-- Abstract airplane / star motif in the center -->
+    <path fill="#ffffff" d="M50 30l15 40-15-10-15 10 15-40z"/>
+</svg>

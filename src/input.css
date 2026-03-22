@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* US TravelShield — Custom Styles */
+
+/* Font Faces */
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter/Inter-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus ring for accessibility */
+*:focus-visible {
+  outline: 2px solid #0073e6;
+  outline-offset: 2px;
+}
+
+/* Skip to content link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: #0073e6;
+  color: white;
+  padding: 0.5rem 1rem;
+  z-index: 100;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Accordion animation */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+.accordion-content.open {
+  max-height: 500px;
+}
+
+/* Dropdown menu animation */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+}
+.dropdown:hover .dropdown-menu,
+.dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Mobile nav overlay */
+.mobile-nav {
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.mobile-nav.open {
+  transform: translateX(0);
+}
+
+/* Chevron rotation for accordions */
+.accordion-chevron {
+  transition: transform 0.3s ease;
+}
+.accordion-trigger[aria-expanded="true"] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+/* Plan comparison table sticky header */
+.comparison-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Google Translate widget styles */
+#google_translate_element .goog-te-gadget-simple {
+  background: transparent !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  font-size: 0.875rem !important;
+  font-family: 'Inter', sans-serif !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  cursor: pointer;
+}
+#google_translate_element .goog-te-gadget-simple span,
+#google_translate_element .goog-te-gadget-simple a {
+  color: #374151 !important;
+  text-decoration: none !important;
+}
+#google_translate_element .goog-te-gadget-simple img {
+  display: none !important;
+}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0 !important; }
+
+/* Wizard step transitions */
+.wizard-step {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+.wizard-step.active {
+  opacity: 1;
+  transform: translateX(0);
+}

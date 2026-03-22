@@ -1,0 +1,20 @@
+{
+  "name": "us-travelshield",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "US TravelShield — Travel insurance website for visitors to the United States",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["travel-insurance", "visitors-insurance", "us-travel"],
+  "author": "NicoGreg",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.0.1"
+  }
+}
