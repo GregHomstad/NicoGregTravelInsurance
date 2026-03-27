@@ -33,8 +33,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadCatalogs();
 });
 
+// --- Fallback Catalog Data (used when API server is not running) ---
+const FALLBACK_COUNTRIES = [
+  { nCountryID: 91, countryName: 'India' },
+  { nCountryID: 55, countryName: 'Brazil' },
+  { nCountryID: 52, countryName: 'Mexico' },
+  { nCountryID: 44, countryName: 'United Kingdom' },
+  { nCountryID: 49, countryName: 'Germany' },
+  { nCountryID: 86, countryName: 'China' },
+  { nCountryID: 81, countryName: 'Japan' },
+  { nCountryID: 57, countryName: 'Colombia' },
+  { nCountryID: 54, countryName: 'Argentina' },
+  { nCountryID: 56, countryName: 'Chile' },
+];
+const FALLBACK_DESTINATIONS = [
+  { nDestination: 1, destinationName: 'United States & Canada' },
+  { nDestination: 2, destinationName: 'Europe (Schengen)' },
+  { nDestination: 3, destinationName: 'Worldwide' },
+  { nDestination: 4, destinationName: 'Latin America & Caribbean' },
+];
+const FALLBACK_GENDERS = [
+  { id: 1, genderDescription: 'Male' },
+  { id: 2, genderDescription: 'Female' },
+];
+const FALLBACK_CREDIT_CARDS = [
+  { nCard_Type: 1, creditCardDesc: 'Visa' },
+  { nCard_Type: 2, creditCardDesc: 'MasterCard' },
+  { nCard_Type: 3, creditCardDesc: 'American Express' },
+];
+
 // --- Catalog Loading ---
 async function loadCatalogs() {
+  // Immediately populate with fallbacks so the form is usable
+  state.catalogs.countries = FALLBACK_COUNTRIES;
+  state.catalogs.destinations = FALLBACK_DESTINATIONS;
+  state.catalogs.genders = FALLBACK_GENDERS;
+  state.catalogs.creditCards = FALLBACK_CREDIT_CARDS;
+  populateSelect($('q-departure'), state.catalogs.countries, 'nCountryID', 'countryName', 'Select departure country');
+  populateSelect($('q-destination'), state.catalogs.destinations, 'nDestination', 'destinationName', 'Select destination');
+  populateSelect($('pay-card-type'), state.catalogs.creditCards, 'nCard_Type', 'creditCardDesc', 'Select card type');
+
+  // Try to load real data from the API server (enhances if available)
   try {
     const [countries, destinations, genders, creditCards] = await Promise.all([
       apiFetch('/api/catalog/countries'),
@@ -43,24 +82,25 @@ async function loadCatalogs() {
       apiFetch('/api/catalog/creditcards'),
     ]);
 
-    if (countries.isSuccess) {
-      state.catalogs.countries = countries.data?.details || [];
+    if (countries.isSuccess && countries.data?.details?.length) {
+      state.catalogs.countries = countries.data.details;
       populateSelect($('q-departure'), state.catalogs.countries, 'nCountryID', 'countryName', 'Select departure country');
     }
-    if (destinations.isSuccess) {
-      state.catalogs.destinations = destinations.data?.details || [];
+    if (destinations.isSuccess && destinations.data?.details?.length) {
+      state.catalogs.destinations = destinations.data.details;
       populateSelect($('q-destination'), state.catalogs.destinations, 'nDestination', 'destinationName', 'Select destination');
     }
-    if (genders.isSuccess) {
-      state.catalogs.genders = genders.data?.details || [];
+    if (genders.isSuccess && genders.data?.details?.length) {
+      state.catalogs.genders = genders.data.details;
     }
-    if (creditCards.isSuccess) {
-      state.catalogs.creditCards = creditCards.data?.details || [];
+    if (creditCards.isSuccess && creditCards.data?.details?.length) {
+      state.catalogs.creditCards = creditCards.data.details;
       populateSelect($('pay-card-type'), state.catalogs.creditCards, 'nCard_Type', 'creditCardDesc', 'Select card type');
     }
+    console.log('[Catalogs] Loaded live data from BMI API');
   } catch (e) {
-    showError('Could not load form data. Please refresh the page. If the problem persists, the API server may not be running.');
-    console.error('[Catalogs]', e);
+    console.warn('[Catalogs] API not available, using fallback data. Error:', e.message);
+    // Fallbacks already loaded — form is usable
   }
 }
 
