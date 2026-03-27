@@ -6,9 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node server/index.js"
   },
-  "keywords": ["travel-insurance", "visitors-insurance", "india-us-travel", "tripkavach"],
+  "keywords": [
+    "travel-insurance",
+    "visitors-insurance",
+    "india-us-travel",
+    "tripkavach"
+  ],
   "author": "NicoGreg",
   "license": "MIT",
   "devDependencies": {
@@ -16,5 +22,10 @@
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.19",
     "vite": "^8.0.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
   }
 }

@@ -13,6 +13,7 @@ export default defineConfig({
         planfinder: resolve(__dirname, 'plan-finder.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
+        quote: resolve(__dirname, 'quote.html'),
         whytripkavach: resolve(__dirname, 'why-tripkavach.html'),
         plans: resolve(__dirname, 'plans/index.html'),
         plansannual: resolve(__dirname, 'plans/annual.html'),
@@ -22,6 +23,14 @@ export default defineConfig({
         planslongterm: resolve(__dirname, 'plans/long-term.html'),
         plansshortterm: resolve(__dirname, 'plans/short-term.html'),
         plansstudent: resolve(__dirname, 'plans/student.html'),
+      }
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
       }
     }
   }
