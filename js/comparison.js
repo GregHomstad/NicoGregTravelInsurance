@@ -1,5 +1,5 @@
 /**
- * US TravelShield — Plan Comparison Tool
+ * TripKavach — Plan Comparison Tool
  * Toggles plan columns on/off in the comparison table
  */
 

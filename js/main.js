@@ -1,5 +1,5 @@
 /**
- * US TravelShield — Main JavaScript
+ * TripKavach — Main JavaScript
  * Shared functionality: navigation, FAQ accordion, smooth scroll
  */
 

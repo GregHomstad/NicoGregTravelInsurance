@@ -1,14 +1,14 @@
 {
-  "name": "us-travelshield",
+  "name": "tripkavach",
   "version": "1.0.0",
   "type": "module",
-  "description": "US TravelShield — Travel insurance website for visitors to the United States",
+  "description": "TripKavach — Travel insurance website for Indian travelers visiting the United States",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "keywords": ["travel-insurance", "visitors-insurance", "us-travel"],
+  "keywords": ["travel-insurance", "visitors-insurance", "india-us-travel", "tripkavach"],
   "author": "NicoGreg",
   "license": "MIT",
   "devDependencies": {

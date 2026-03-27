@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compare Plans — US TravelShield</title>
-  <meta name="description" content="Compare US TravelShield travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
-  <meta property="og:title" content="Compare Plans — US TravelShield">
-  <meta property="og:description" content="Compare US TravelShield travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
+  <title>Compare Plans — TripKavach</title>
+  <meta name="description" content="Compare TripKavach travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
+  <meta property="og:title" content="Compare Plans — TripKavach">
+  <meta property="og:description" content="Compare TripKavach travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="../src/input.css">
 </head>
@@ -17,7 +17,7 @@
   <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 md:h-20">
-        <a href="../index.html" class="flex items-center gap-2"><img src="/images/logo-feature.png" alt="US TravelShield Logo" class="h-14 md:h-16"><span class="text-xl md:text-2xl font-bold tracking-tight"><span class="text-primary">US</span> <span class="text-navy">TravelShield</span></span></a>
+        <a href="../index.html" class="flex items-center gap-2"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-14 md:h-16"><span class="text-xl md:text-2xl font-bold tracking-tight"><span class="text-primary font-bold">Trip</span><span class="text-navy font-bold">Kavach</span></span></a>
         <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
           <div class="dropdown relative">
             <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary rounded-lg bg-blue-50" aria-expanded="false" aria-haspopup="true">Plans <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
@@ -38,7 +38,7 @@
             <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors" aria-expanded="false" aria-haspopup="true">About <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
             <div class="dropdown-menu absolute top-full left-0 mt-1 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2">
               <a href="../about.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">About Us</a>
-              <a href="../why-victoria.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Why US TravelShield</a>
+              <a href="../why-tripkavach.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Why TripKavach</a>
             </div>
           </div>
           <a href="../claims.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Claims</a>
@@ -72,7 +72,7 @@
         <a href="../plan-finder.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg font-medium">Plan Finder</a>
         <hr class="my-4 border-gray-200">
         <a href="../about.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">About Us</a>
-        <a href="../why-victoria.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Why US TravelShield</a>
+        <a href="../why-tripkavach.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Why TripKavach</a>
         <a href="../claims.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Claims</a>
         <a href="../faq.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">FAQ</a>
         <a href="../contact.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Contact</a>
@@ -106,24 +106,24 @@
         <!-- Plan Selector -->
         <div class="flex flex-wrap justify-center gap-3 mb-8" id="plan-toggles">
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
-            <input type="checkbox" class="plan-toggle accent-primary" data-plan="short" checked>
-            <span class="text-sm font-medium">Short-term</span>
+            <input type="checkbox" class="plan-toggle accent-primary" data-plan="clasico" checked>
+            <span class="text-sm font-medium">Cl&aacute;sico</span>
           </label>
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
-            <input type="checkbox" class="plan-toggle accent-primary" data-plan="long" checked>
-            <span class="text-sm font-medium">Long-term</span>
+            <input type="checkbox" class="plan-toggle accent-primary" data-plan="ultra" checked>
+            <span class="text-sm font-medium">Ultra</span>
           </label>
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
-            <input type="checkbox" class="plan-toggle accent-primary" data-plan="annual" checked>
-            <span class="text-sm font-medium">Annual Multi-trip</span>
+            <input type="checkbox" class="plan-toggle accent-primary" data-plan="ultraplus" checked>
+            <span class="text-sm font-medium">Ultra Plus</span>
           </label>
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
-            <input type="checkbox" class="plan-toggle accent-primary" data-plan="family">
-            <span class="text-sm font-medium">Family</span>
+            <input type="checkbox" class="plan-toggle accent-primary" data-plan="vip" checked>
+            <span class="text-sm font-medium">VIP</span>
           </label>
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
-            <input type="checkbox" class="plan-toggle accent-primary" data-plan="student">
-            <span class="text-sm font-medium">Student</span>
+            <input type="checkbox" class="plan-toggle accent-primary" data-plan="vipplus" checked>
+            <span class="text-sm font-medium">VIP Plus</span>
           </label>
         </div>
 
@@ -133,121 +133,169 @@
             <thead>
               <tr class="bg-heading text-white">
                 <th class="px-4 py-4 text-left font-semibold sticky left-0 bg-heading z-10 min-w-[180px]" scope="col">Benefit</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[140px] plan-col-short" scope="col">Short-term</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[140px] plan-col-long" scope="col">
-                  <div class="flex items-center justify-center gap-1">Long-term <span class="bg-white/20 text-xs px-1.5 py-0.5 rounded-full">Popular</span></div>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-clasico" scope="col">Cl&aacute;sico ($10K)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-ultra" scope="col">Ultra ($30K)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-ultraplus" scope="col">
+                  <div class="flex items-center justify-center gap-1">Ultra Plus ($60K) <span class="bg-white/20 text-xs px-1.5 py-0.5 rounded-full">Popular</span></div>
                 </th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[140px] plan-col-annual" scope="col">Annual</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[140px] plan-col-family hidden" scope="col">Family</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[140px] plan-col-student hidden" scope="col">Student</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vip" scope="col">VIP ($100K)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vipplus" scope="col">VIP Plus ($250K)</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Duration</td>
-                <td class="px-4 py-3 text-center plan-col-short">5 - 90 days</td>
-                <td class="px-4 py-3 text-center plan-col-long">60 - 365 days</td>
-                <td class="px-4 py-3 text-center plan-col-annual">Calendar year</td>
-                <td class="px-4 py-3 text-center plan-col-family hidden">5 - 365 days</td>
-                <td class="px-4 py-3 text-center plan-col-student hidden">Up to 1 year</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Max Age</td>
-                <td class="px-4 py-3 text-center plan-col-short">All ages</td>
-                <td class="px-4 py-3 text-center plan-col-long">Up to 65</td>
-                <td class="px-4 py-3 text-center plan-col-annual">All ages</td>
-                <td class="px-4 py-3 text-center plan-col-family hidden">All ages</td>
-                <td class="px-4 py-3 text-center plan-col-student hidden">Up to 35</td>
+              <!-- Medical Benefits Section Header -->
+              <tr class="border-b border-gray-200">
+                <td colspan="6" class="px-4 py-3 font-bold text-heading bg-blue-50 text-sm uppercase tracking-wide">Medical Benefits</td>
               </tr>
               <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Max Per Trip</td>
-                <td class="px-4 py-3 text-center plan-col-short">90 days</td>
-                <td class="px-4 py-3 text-center plan-col-long">365 days</td>
-                <td class="px-4 py-3 text-center plan-col-annual">30-90 days</td>
-                <td class="px-4 py-3 text-center plan-col-family hidden">365 days</td>
-                <td class="px-4 py-3 text-center plan-col-student hidden">1 year</td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Medical &mdash; Accident/Illness</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$60,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$100,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$250,000</td>
               </tr>
               <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Medical Coverage</td>
-                <td class="px-4 py-3 text-center plan-col-short">Up to plan limit</td>
-                <td class="px-4 py-3 text-center plan-col-long">Up to plan limit</td>
-                <td class="px-4 py-3 text-center plan-col-annual">Up to plan limit</td>
-                <td class="px-4 py-3 text-center plan-col-family hidden">Up to plan limit</td>
-                <td class="px-4 py-3 text-center plan-col-student hidden">Up to plan limit</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Deductible</td>
-                <td class="px-4 py-3 text-center plan-col-short"><span class="text-green-600 font-medium">$0</span></td>
-                <td class="px-4 py-3 text-center plan-col-long"><span class="text-green-600 font-medium">$0</span></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><span class="text-green-600 font-medium">$0</span></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><span class="text-green-600 font-medium">$0</span></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><span class="text-green-600 font-medium">$0</span></td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Co-insurance</td>
-                <td class="px-4 py-3 text-center plan-col-short">100%</td>
-                <td class="px-4 py-3 text-center plan-col-long">100%</td>
-                <td class="px-4 py-3 text-center plan-col-annual">100%</td>
-                <td class="px-4 py-3 text-center plan-col-family hidden">100%</td>
-                <td class="px-4 py-3 text-center plan-col-student hidden">100%</td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">COVID-19 (age &le;75)</td>
+                <td class="px-4 py-3 text-center plan-col-clasico"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultra"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-vip"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-vipplus"><span class="text-green-600 font-medium">Included</span></td>
               </tr>
               <tr class="border-b border-gray-100 hover:bg-gray-50">
                 <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Pre-existing Conditions</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$300</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$500</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$700</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$6,000</td>
               </tr>
               <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Emergency Dental</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Medications</td>
+                <td class="px-4 py-3 text-center plan-col-clasico"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultra"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-vip"><span class="text-green-600 font-medium">Included</span></td>
+                <td class="px-4 py-3 text-center plan-col-vipplus"><span class="text-green-600 font-medium">Included</span></td>
               </tr>
               <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Emergency Evacuation</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Dental Emergency</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$150</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$300</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$750</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$1,500</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$1,700</td>
               </tr>
               <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">AD&amp;D</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Medical Transport</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$60,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$100,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus"><span class="text-green-600 font-medium">Included</span></td>
+              </tr>
+              <tr class="border-b border-gray-200 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Amateur Sports</td>
+                <td class="px-4 py-3 text-center plan-col-clasico"><span class="text-gray-400">N/A</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$20,000</td>
+              </tr>
+              <!-- Non-Medical Benefits Section Header -->
+              <tr class="border-b border-gray-200">
+                <td colspan="6" class="px-4 py-3 font-bold text-heading bg-blue-50 text-sm uppercase tracking-wide">Non-Medical Benefits</td>
               </tr>
               <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Direct Billing</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Accidental Death</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$50,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$50,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$100,000</td>
+              </tr>
+              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Funeral Repatriation</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$60,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$60,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus"><span class="text-green-600 font-medium">Included</span></td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Trip Cancellation</td>
+                <td class="px-4 py-3 text-center plan-col-clasico"><span class="text-gray-400">N/A</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$2,200</td>
+              </tr>
+              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Baggage Delay</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$300</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$400</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$500</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$800</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$1,500</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Baggage Loss</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$600</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$1,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$1,200</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$3,000</td>
+              </tr>
+              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Missed Flight</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$100</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$300</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$450</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$500</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$550</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Flight Delay/Cancellation</td>
+                <td class="px-4 py-3 text-center plan-col-clasico"><span class="text-gray-400">N/A</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultra"><span class="text-gray-400">N/A</span></td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$150</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$150</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$350</td>
+              </tr>
+              <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Hotel Convalescence</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$300</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$800</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$800</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$2,200</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium sticky left-0 bg-white z-10">Passport Theft/Loss</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$50</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$70</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$70</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$100</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$100</td>
               </tr>
               <tr class="bg-gray-50/50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">24/7 Assistance</td>
-                <td class="px-4 py-3 text-center plan-col-short"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-long"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-annual"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-family hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
-                <td class="px-4 py-3 text-center plan-col-student hidden"><svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Legal Assistance (Traffic)</td>
+                <td class="px-4 py-3 text-center plan-col-clasico">$1,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultra">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-ultraplus">$2,000</td>
+                <td class="px-4 py-3 text-center plan-col-vip">$3,000</td>
+                <td class="px-4 py-3 text-center plan-col-vipplus">$9,000</td>
               </tr>
             </tbody>
             <tfoot>
               <tr class="bg-gray-100">
                 <td class="px-4 py-4 font-semibold sticky left-0 bg-gray-100 z-10">Get a Quote</td>
-                <td class="px-4 py-4 text-center plan-col-short"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
-                <td class="px-4 py-4 text-center plan-col-long"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
-                <td class="px-4 py-4 text-center plan-col-annual"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
-                <td class="px-4 py-4 text-center plan-col-family hidden"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
-                <td class="px-4 py-4 text-center plan-col-student hidden"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
+                <td class="px-4 py-4 text-center plan-col-clasico"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
+                <td class="px-4 py-4 text-center plan-col-ultra"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
+                <td class="px-4 py-4 text-center plan-col-ultraplus"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
+                <td class="px-4 py-4 text-center plan-col-vip"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
+                <td class="px-4 py-4 text-center plan-col-vipplus"><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary hover:bg-primary-hover text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs">Get Quote</a></td>
               </tr>
             </tfoot>
           </table>
@@ -281,13 +329,13 @@
   <footer class="bg-navy text-gray-300 py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="US TravelShield Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">US TravelShield</span></div><p class="text-sm text-gray-400 mb-4">Comprehensive travel insurance for non-US residents visiting the United States. Powered by BMI Travel Assist.</p></div>
+        <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">TripKavach</span></div><p class="text-sm text-gray-400 mb-4">Comprehensive travel insurance for Indian travelers visiting the United States. Powered by BMI Travel Assist.</p></div>
         <div><h4 class="text-white font-semibold mb-4">Plans</h4><ul class="space-y-2 text-sm"><li><a href="short-term.html" class="hover:text-white transition-colors">Short-term</a></li><li><a href="long-term.html" class="hover:text-white transition-colors">Long-term</a></li><li><a href="annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li><li><a href="family.html" class="hover:text-white transition-colors">Family</a></li><li><a href="corporate.html" class="hover:text-white transition-colors">Corporate</a></li><li><a href="student.html" class="hover:text-white transition-colors">Student</a></li><li><a href="compare.html" class="hover:text-white transition-colors">Compare Plans</a></li></ul></div>
-        <div><h4 class="text-white font-semibold mb-4">Resources</h4><ul class="space-y-2 text-sm"><li><a href="../plan-finder.html" class="hover:text-white transition-colors">Plan Finder</a></li><li><a href="../claims.html" class="hover:text-white transition-colors">Claims Process</a></li><li><a href="../faq.html" class="hover:text-white transition-colors">FAQ</a></li><li><a href="../about.html" class="hover:text-white transition-colors">About Us</a></li><li><a href="../why-victoria.html" class="hover:text-white transition-colors">Why US TravelShield</a></li></ul></div>
+        <div><h4 class="text-white font-semibold mb-4">Resources</h4><ul class="space-y-2 text-sm"><li><a href="../plan-finder.html" class="hover:text-white transition-colors">Plan Finder</a></li><li><a href="../claims.html" class="hover:text-white transition-colors">Claims Process</a></li><li><a href="../faq.html" class="hover:text-white transition-colors">FAQ</a></li><li><a href="../about.html" class="hover:text-white transition-colors">About Us</a></li><li><a href="../why-tripkavach.html" class="hover:text-white transition-colors">Why TripKavach</a></li></ul></div>
         <div><h4 class="text-white font-semibold mb-4">Contact</h4><ul class="space-y-2 text-sm"><li><a href="../contact.html" class="hover:text-white transition-colors">Contact Us</a></li><li><a href="http://bmitravelassist.com/Plans/Quote/16111" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Get a Quote</a></li></ul></div>
       </div>
       <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-        <p>&copy; 2026 US TravelShield. All rights reserved.</p>
+        <p>&copy; 2026 TripKavach. All rights reserved.</p>
         <div class="flex gap-6"><a href="../privacy.html" class="hover:text-white transition-colors">Privacy Policy</a><a href="../terms.html" class="hover:text-white transition-colors">Terms &amp; Conditions</a></div>
       </div>
     </div>

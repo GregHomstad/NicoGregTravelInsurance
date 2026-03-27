@@ -13,7 +13,7 @@ export default defineConfig({
         planfinder: resolve(__dirname, 'plan-finder.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
-        whyvictoria: resolve(__dirname, 'why-victoria.html'),
+        whytripkavach: resolve(__dirname, 'why-tripkavach.html'),
         plans: resolve(__dirname, 'plans/index.html'),
         plansannual: resolve(__dirname, 'plans/annual.html'),
         planscompare: resolve(__dirname, 'plans/compare.html'),
