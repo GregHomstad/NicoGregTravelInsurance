@@ -127,6 +127,20 @@ html {
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0 !important; }
 
+/* Hide Google Translate branding */
+.goog-logo-link, 
+.goog-te-gadget span,
+.goog-te-gadget .goog-te-gadget-simple img {
+  display: none !important;
+}
+.goog-te-gadget {
+  color: transparent !important;
+}
+.goog-te-gadget .goog-te-combo {
+  color: #374151 !important;
+  margin: 0 !important;
+}
+
 /* Wizard step transitions */
 .wizard-step {
   opacity: 0;

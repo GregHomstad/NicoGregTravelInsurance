@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us — TripKavach</title>
   <meta name="description" content="Get in touch with TripKavach — we're here to help with your travel insurance questions, quotes, claims, and more.">
+  <link rel="canonical" href="https://tripkavach.com/contact.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Contact Us — TripKavach">
   <meta property="og:description" content="Get in touch with TripKavach — we're here to help with your travel insurance questions, quotes, claims, and more.">
+  <meta property="og:url" content="https://tripkavach.com/contact.html">
+  <meta property="og:image" content="https://tripkavach.com/images/og-image.jpg">
   <meta property="og:type" content="website">
+ Broadway
   <link rel="preload" href="fonts/inter/Inter-Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/inter/Inter-Medium.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="./src/input.css">
@@ -22,16 +29,19 @@
         <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
           <div class="dropdown relative">
             <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors" aria-expanded="false" aria-haspopup="true">Plans <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
-            <div class="dropdown-menu absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2">
-              <a href="plans/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">All Plans</a>
-              <a href="plans/short-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Short-term</a>
-              <a href="plans/long-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Long-term</a>
+            <div class="dropdown-menu absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-3">
+              <div class="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Standard Trip Types</div>
+              <a href="plans/short-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Short-term (Daily)</a>
+              <a href="plans/long-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Long-term (Long-stay)</a>
               <a href="plans/annual.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Annual Multi-trip</a>
-              <a href="plans/family.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Family</a>
-              <a href="plans/corporate.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Corporate</a>
-              <a href="plans/student.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Student</a>
+              
+              <div class="px-4 py-1 mt-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Specialty Trip Types</div>
+              <a href="plans/family.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Family Plan</a>
+              <a href="plans/corporate.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Corporate Group</a>
+              <a href="plans/student.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">International Student</a>
               <hr class="my-2 border-gray-100">
-              <a href="plans/compare.html" class="block px-4 py-2 text-sm font-medium text-primary hover:bg-blue-50">Compare Plans</a>
+              <a href="plans/index.html" class="block px-4 py-2 text-sm font-medium text-primary hover:bg-blue-50 italic underline">View All Trip Types</a>
+              <a href="plans/compare.html" class="block px-4 py-2 text-sm font-bold text-primary hover:bg-blue-50">Compare Coverage Tiers</a>
             </div>
           </div>
           <a href="plan-finder.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Plan Finder</a>
@@ -59,16 +69,27 @@
   <nav id="mobile-nav" class="mobile-nav fixed top-0 right-0 h-full w-80 max-w-full bg-white z-50 overflow-y-auto shadow-2xl" aria-label="Mobile navigation">
     <div class="p-6">
       <div class="flex items-center justify-between mb-8"><span class="text-lg font-bold text-heading">Menu</span><button id="mobile-nav-close" class="p-2 text-gray-500 hover:text-gray-700" aria-label="Close menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-      <div class="space-y-1">
-        <a href="index.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Home</a>
-        <a href="plans/index.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">All Plans</a>
-        <a href="plan-finder.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Plan Finder</a>
+        <div class="px-3 py-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Standard Trip Types</div>
+        <a href="plans/short-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Short-term (Daily)</a>
+        <a href="plans/long-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Long-term (Long-stay)</a>
+        <a href="plans/annual.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Annual Multi-trip</a>
+        
+        <div class="px-3 py-2 mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Specialty Trip Types</div>
+        <a href="plans/family.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Family Plan</a>
+        <a href="plans/corporate.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Corporate Group</a>
+        <a href="plans/student.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">International Student Plan</a>
+        
+        <hr class="my-4 border-gray-200">
+        <a href="plans/index.html" class="block px-3 py-2.5 font-medium text-primary hover:bg-blue-50 rounded-lg italic underline text-sm">View All Trip Types</a>
+        <a href="plans/compare.html" class="block px-3 py-2.5 font-bold text-primary hover:bg-blue-50 rounded-lg">Compare Coverage Tiers</a>
+        <hr class="my-4 border-gray-200">
+        <a href="plan-finder.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg font-medium">Plan Finder</a>
+        <hr class="my-4 border-gray-200">
         <a href="about.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">About Us</a>
         <a href="why-tripkavach.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Why TripKavach</a>
         <a href="claims.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Claims</a>
         <a href="faq.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">FAQ</a>
         <a href="contact.html" class="block px-3 py-2.5 text-primary font-medium bg-blue-50 rounded-lg">Contact</a>
-      </div>
       <div class="mt-8"><a href="quote.html" class="block w-full text-center bg-primary hover:bg-primary-hover text-white font-medium py-3 px-6 rounded-lg transition-colors">Get a Quote</a></div>
     </div>
   </nav>
@@ -93,7 +114,7 @@
           <!-- LEFT COLUMN - Contact Form -->
           <div>
             <h2 class="text-2xl md:text-3xl font-bold text-heading mb-6">Send Us a Message</h2>
-            <form action="https://formspree.io/f/placeholder" method="POST" class="space-y-5">
+            <form action="https://formspree.io/f/mqaejovk" method="POST" class="space-y-5">
               <div>
                 <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                 <input type="text" id="full-name" name="full_name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your full name">
@@ -136,7 +157,6 @@
                 </div>
                 <div>
                   <h3 class="font-bold text-heading mb-1">Email</h3>
-                  <p class="mb-1"><a href="mailto:support@tripkavach.com" class="text-primary hover:text-primary-hover transition-colors">support@tripkavach.com</a></p>
                   <p class="mb-1"><a href="mailto:info@bmitravelassist.com" class="text-primary hover:text-primary-hover transition-colors">info@bmitravelassist.com</a> <span class="text-sm text-gray-500">— General queries</span></p>
                   <p><a href="mailto:asistencias@bmitravelassist.com" class="text-primary hover:text-primary-hover transition-colors">asistencias@bmitravelassist.com</a> <span class="text-sm text-gray-500">— Assistance</span></p>
                 </div>
@@ -152,7 +172,13 @@
                 <div>
                   <h3 class="font-bold text-heading mb-1">Phone</h3>
                   <p class="text-gray-600 mb-1"><strong>USA:</strong> <a href="tel:+18552418877" class="text-primary hover:text-primary-hover transition-colors">+1 (855) 241-8877</a> / <a href="tel:+17864343760" class="text-primary hover:text-primary-hover transition-colors">+1 (786) 434-3760</a></p>
-                  <p class="text-gray-600 mb-1"><strong>WhatsApp (text only):</strong> <a href="https://wa.me/18297603152" class="text-primary hover:text-primary-hover transition-colors">+1 (829) 760-3152</a></p>
+                  <p class="text-gray-600 mb-1 flex items-center gap-2">
+                    <strong>WhatsApp:</strong> 
+                    <a href="https://wa.me/18297603152" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-primary hover:text-primary-hover font-medium transition-colors">
+                      <svg class="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.484 2.247 2.247 3.484 5.232 3.484 8.404 0 6.556-5.332 11.888-11.888 11.888-2.013 0-3.991-.512-5.747-1.483l-6.24 1.637zm6.657-3.945l.394.234c1.404.834 3.012 1.275 4.659 1.275 4.79 0 8.688-3.898 8.688-8.688 0-4.79-3.898-8.688-8.688-8.688-4.79 0-8.688 3.898-8.688 8.688 0 1.956.656 3.805 1.841 5.309l.257.324-1.01 3.69 3.784-.993zm8.381-12.008c.3-.064.552.126.711.23.238.156 1.439.73 1.687.822.247.091.412.137.59.36.179.223.179.64.091.959-.091.319-.533 1.059-1.04 1.348-.137.078-.303.111-.476.103-.454-.02-1.28-.277-2.383-1.058-1.-714-1.742-1.58-1.921-1.887-.179-.31-.02-.489.13-.64.137-.137.319-.36.474-.533.156-.179.21-.3.319-.489.111-.19.055-.36-.027-.512-.083-.153-.734-1.769-.997-2.42-.26-.65-.536-.56-.734-.572-.189-.011-.41-.011-.63-.011-.223 0-.585.083-.895.424-.31.332-1.183 1.157-1.183 2.82s1.21 3.266 1.377 3.491c.167.223 2.383 3.639 5.77 5.101.807.348 1.437.556 1.928.712.812.257 1.55.221 2.13.134.65-.098 1.687-.69 1.928-1.358.24-.668.24-1.24.167-1.358-.073-.118-.266-.19-.556-.33z"/></svg>
+                      +1 (829) 760-3152
+                    </a>
+                  </p>
                   <p class="text-gray-600"><strong>Rest of World (collect):</strong> <a href="tel:+17866288580" class="text-primary hover:text-primary-hover transition-colors">+1 (786) 628-8580</a></p>
                 </div>
               </div>
@@ -204,7 +230,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">TripKavach</span></div><p class="text-sm text-gray-400 mb-4">Comprehensive travel insurance for Indian travelers visiting the United States. Powered by BMI Travel Assist.</p></div>
-        <div><h4 class="text-white font-semibold mb-4">Plans</h4><ul class="space-y-2 text-sm"><li><a href="plans/short-term.html" class="hover:text-white transition-colors">Short-term</a></li><li><a href="plans/long-term.html" class="hover:text-white transition-colors">Long-term</a></li><li><a href="plans/annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li><li><a href="plans/family.html" class="hover:text-white transition-colors">Family</a></li><li><a href="plans/corporate.html" class="hover:text-white transition-colors">Corporate</a></li><li><a href="plans/student.html" class="hover:text-white transition-colors">Student</a></li></ul></div>
+                <div>
+          <h4 class="text-white font-semibold mb-4">Plans</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="plans/short-term.html" class="hover:text-white transition-colors">Daily (Short-term)</a></li>
+            <li><a href="plans/long-term.html" class="hover:text-white transition-colors">Long-stay (Long-term)</a></li>
+            <li><a href="plans/annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li>
+            <li><a href="plans/family.html" class="hover:text-white transition-colors">Family Plan</a></li>
+            <li><a href="plans/corporate.html" class="hover:text-white transition-colors">Corporate Group</a></li>
+            <li><a href="plans/student.html" class="hover:text-white transition-colors">International Student</a></li>
+            <li><a href="plans/compare.html" class="hover:text-white transition-colors">Compare Coverage Tiers</a></li>
+          </ul>
+        </div>
         <div><h4 class="text-white font-semibold mb-4">Resources</h4><ul class="space-y-2 text-sm"><li><a href="plan-finder.html" class="hover:text-white transition-colors">Plan Finder</a></li><li><a href="claims.html" class="hover:text-white transition-colors">Claims Process</a></li><li><a href="faq.html" class="hover:text-white transition-colors">FAQ</a></li><li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li><li><a href="why-tripkavach.html" class="hover:text-white transition-colors">Why TripKavach</a></li></ul></div>
         <div><h4 class="text-white font-semibold mb-4">Contact</h4><ul class="space-y-2 text-sm"><li><a href="contact.html" class="hover:text-white transition-colors">Contact Us</a></li><li><a href="quote.html" class="hover:text-white transition-colors">Get a Quote</a></li></ul></div>
       </div>
@@ -219,9 +256,14 @@
   <!-- Google Translate -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      new google.translate.TranslateElement({
+        pageLanguage: 'en', 
+        includedLanguages: 'en,es,hi,bn,mr,te,ta,gu,ur,kn,ml,pa',
+        layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+      }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
+

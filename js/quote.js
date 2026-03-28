@@ -8,7 +8,12 @@ const API_BASE = '/api';
 // --- State ---
 const state = {
   currentStep: 1,
-  catalogs: { countries: [], destinations: [], genders: [], creditCards: [] },
+  catalogs: {
+    countries: [],
+    destinations: [],
+    genders: [{ id: 1, genderDescription: 'Male' }, { id: 2, genderDescription: 'Female' }],
+    creditCards: [],
+  },
   travelers: [],
   quoteParams: {},     // step1 request body
   step1Response: null, // all plans returned
@@ -30,6 +35,8 @@ for (let i = 1; i <= 6; i++) stepEls.push($(`wizard-step-${i}`));
 document.addEventListener('DOMContentLoaded', async () => {
   initTravelers();
   bindNavigation();
+  // Make step 1 visible (CSS .wizard-step starts with opacity:0)
+  stepEls[0]?.classList.add('active');
   await loadCatalogs();
 });
 
@@ -97,7 +104,7 @@ async function loadCatalogs() {
       state.catalogs.creditCards = creditCards.data.details;
       populateSelect($('pay-card-type'), state.catalogs.creditCards, 'nCard_Type', 'creditCardDesc', 'Select card type');
     }
-    console.log('[Catalogs] Loaded live data from BMI API');
+    // Catalogs loaded from BMI API
   } catch (e) {
     console.warn('[Catalogs] API not available, using fallback data. Error:', e.message);
     // Fallbacks already loaded — form is usable
@@ -203,7 +210,13 @@ function bindNavigation() {
 function goToStep(n) {
   state.currentStep = n;
   stepEls.forEach((el, i) => {
-    el.classList.toggle('hidden', i !== n - 1);
+    if (i === n - 1) {
+      el.classList.remove('hidden');
+      el.classList.add('active');
+    } else {
+      el.classList.add('hidden');
+      el.classList.remove('active');
+    }
   });
   $('step-label').textContent = `Step ${n} of 6`;
   const names = ['Trip Details', 'Select Plan', 'Optional Add-ons', 'Review Quote', 'Payment', 'Confirmation'];
@@ -226,6 +239,21 @@ async function handleStep1() {
 
   if (!departure || !destination || !fromDate || !toDate || !client || travelers.length === 0) {
     showError('Please fill in all fields and add at least one traveler with date of birth and gender.');
+    return;
+  }
+
+  // Validate dates
+  const from = new Date(fromDate);
+  const to = new Date(toDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (from < today) { showError('Start date cannot be in the past.'); return; }
+  if (to <= from) { showError('End date must be after start date.'); return; }
+
+  // Validate all traveler rows have complete data
+  const travelerRows = $('travelers-container').querySelectorAll('[id^="traveler-row-"]');
+  if (travelers.length < travelerRows.length) {
+    showError(`Please fill in date of birth and gender for all ${travelerRows.length} travelers.`);
     return;
   }
 
@@ -285,15 +313,15 @@ function renderPlanCards(plans) {
         <label class="flex items-center justify-between py-1.5 text-sm cursor-pointer">
           <span class="flex items-center gap-2">
             <input type="checkbox" class="coverage-cb rounded text-primary" data-plan-id="${plan.planId}" data-coverage-seq="${c.coverageSeq}" checked>
-            ${c.coverageName}
+            ${sanitize(translateEsToEn(c.coverageName))}
           </span>
           <span class="font-medium text-heading">$${parseFloat(c.tPrice).toFixed(2)}</span>
         </label>
       `).join('');
 
     card.innerHTML = `
-      <h3 class="text-lg font-bold text-heading mb-1">${plan.planName}</h3>
-      <p class="text-xs text-gray-500 mb-3">${plan.description}</p>
+      <h3 class="text-lg font-bold text-heading mb-1">${sanitize(translateEsToEn(plan.planName))}</h3>
+      <p class="text-xs text-gray-500 mb-3">${sanitize(plan.description)}</p>
       <div class="divide-y divide-gray-100">${coverageHtml}</div>
     `;
 
@@ -372,7 +400,7 @@ function renderRiders(riders) {
   Object.entries(byTraveler).forEach(([tid, group]) => {
     const section = document.createElement('div');
     section.className = 'bg-gray-50 rounded-xl p-4';
-    section.innerHTML = `<h4 class="text-sm font-bold text-heading mb-3">${group.description}</h4>`;
+    section.innerHTML = `<h4 class="text-sm font-bold text-heading mb-3">${sanitize(translateEsToEn(group.description))}</h4>`;
 
     group.benefits.forEach(b => {
       const row = document.createElement('label');
@@ -381,7 +409,7 @@ function renderRiders(riders) {
       row.innerHTML = `
         <span class="flex items-center gap-2">
           <input type="checkbox" class="rider-cb rounded text-primary" data-traveler="${tid}" data-benefit="${b.benefit_ID}" ${b.selected === 1 || isRequired ? 'checked' : ''} ${isRequired ? 'disabled' : ''}>
-          ${b.benefit_Name} ${isRequired ? '<span class="text-xs text-gray-400">(included)</span>' : ''}
+          ${sanitize(translateEsToEn(b.benefit_Name))} ${isRequired ? '<span class="text-xs text-gray-400">(included)</span>' : ''}
         </span>
         <span class="font-medium text-heading">$${parseFloat(b.premium).toFixed(2)}</span>
       `;
@@ -390,8 +418,11 @@ function renderRiders(riders) {
     container.appendChild(section);
   });
 
-  // Bind checkbox changes
-  container.addEventListener('change', () => updateRidersTotal(riders));
+  // Bind checkbox changes (replace previous listener to avoid stacking)
+  const handler = () => updateRidersTotal(riders);
+  if (container._ridersHandler) container.removeEventListener('change', container._ridersHandler);
+  container._ridersHandler = handler;
+  container.addEventListener('change', handler);
   updateRidersTotal(riders);
 }
 
@@ -472,7 +503,7 @@ function renderReview() {
     <div class="flex justify-between items-start">
       <div>
         <p class="text-xs text-gray-500">Plan</p>
-        <p class="font-bold text-heading">${plan.planName}</p>
+        <p class="font-bold text-heading">${sanitize(translateEsToEn(plan.planName))}</p>
       </div>
       <div class="text-right">
         <p class="text-xs text-gray-500">Total Premium</p>
@@ -483,7 +514,7 @@ function renderReview() {
     <div class="grid grid-cols-2 gap-4 text-sm">
       <div>
         <p class="text-gray-500">Travel Dates</p>
-        <p class="font-medium text-heading">${params.dFromDate} — ${params.dToDate}</p>
+        <p class="font-medium text-heading">${sanitize(params.dFromDate)} — ${sanitize(params.dToDate)}</p>
       </div>
       <div>
         <p class="text-gray-500">Travelers</p>
@@ -491,11 +522,11 @@ function renderReview() {
       </div>
       <div>
         <p class="text-gray-500">Client</p>
-        <p class="font-medium text-heading">${params.sClient}</p>
+        <p class="font-medium text-heading">${sanitize(params.sClient)}</p>
       </div>
       <div>
         <p class="text-gray-500">Reference</p>
-        <p class="font-medium text-heading text-xs">${state.referenceId || 'N/A'}</p>
+        <p class="font-medium text-heading text-xs">${sanitize(state.referenceId || 'N/A')}</p>
       </div>
     </div>
   `;
@@ -503,8 +534,12 @@ function renderReview() {
 
 // --- Email Quote (Step 3 + Step 6) ---
 async function handleSendEmail() {
+  const sendBtn = $('send-email-btn');
+  if (sendBtn.disabled) return;
+  sendBtn.disabled = true;
+
   const email = $('q-email').value.trim();
-  if (!email) { showError('Please enter an email address.'); return; }
+  if (!email) { showError('Please enter an email address.'); sendBtn.disabled = false; return; }
 
   const statusEl = $('email-status');
   statusEl.textContent = 'Sending...';
@@ -532,6 +567,8 @@ async function handleSendEmail() {
   } catch (e) {
     statusEl.textContent = 'Failed to send: ' + e.message;
     statusEl.className = 'text-sm text-red-600 mt-2';
+  } finally {
+    sendBtn.disabled = false;
   }
 }
 
@@ -576,6 +613,10 @@ function preparePaymentStep() {
 
 // --- Step 7: Payment ---
 async function handleStep7() {
+  const submitBtn = $('step5-submit');
+  if (submitBtn.disabled) return;
+  submitBtn.disabled = true;
+
   const contactName = $('pay-name').value.trim();
   const contactEmail = $('pay-email').value.trim();
   const contactPhone = $('pay-phone').value.trim();
@@ -584,10 +625,12 @@ async function handleStep7() {
   const cardMonth = $('pay-card-month').value;
   const cardYear = $('pay-card-year').value;
   const cardName = $('pay-card-name').value.trim();
+  const cardCvv = $('pay-card-cvv')?.value.trim() || '';
   const payerEmail = $('pay-payer-email').value.trim();
 
   if (!contactName || !contactEmail || !contactPhone || !cardType || !cardNumber || !cardMonth || !cardYear || !cardName || !payerEmail) {
     showError('Please fill in all payment fields.');
+    submitBtn.disabled = false;
     return;
   }
 
@@ -622,6 +665,7 @@ async function handleStep7() {
       sCardNumber: cardNumber,
       nCardType: parseInt(cardType, 10),
       sCardName: cardName,
+      sCardCVV: cardCvv,
       nCardMonth: parseInt(cardMonth, 10),
       nCardYear: parseInt(cardYear, 10),
       sPayerEmail: payerEmail,
@@ -639,6 +683,7 @@ async function handleStep7() {
   } catch (e) {
     hideLoading();
     showError(e.message);
+    submitBtn.disabled = false;
   }
 }
 
@@ -648,15 +693,15 @@ function renderConfirmation(details) {
   el.innerHTML = `
     <div class="flex justify-between py-2">
       <span class="text-gray-600">Voucher Code</span>
-      <span class="font-bold text-heading">${details.sVoucherCode || 'N/A'}</span>
+      <span class="font-bold text-heading">${sanitize(details.sVoucherCode || 'N/A')}</span>
     </div>
     <div class="flex justify-between py-2">
       <span class="text-gray-600">Transaction ID</span>
-      <span class="font-medium text-heading">${details.sTransactionID || 'N/A'}</span>
+      <span class="font-medium text-heading">${sanitize(details.sTransactionID || 'N/A')}</span>
     </div>
     <div class="flex justify-between py-2">
       <span class="text-gray-600">Authorization Code</span>
-      <span class="font-medium text-heading">${details.sAuthorizationCode || 'N/A'}</span>
+      <span class="font-medium text-heading">${sanitize(details.sAuthorizationCode || 'N/A')}</span>
     </div>
     <div class="flex justify-between py-2">
       <span class="text-gray-600">Amount Charged</span>
@@ -675,14 +720,69 @@ function renderConfirmation(details) {
 
 // --- Utilities ---
 async function apiFetch(url, method = 'GET', body = null) {
-  const opts = { method, headers: {} };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const opts = { method, headers: {}, signal: controller.signal };
   if (body && method !== 'GET') {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(body);
   }
-  const res = await fetch(url, opts);
-  if (!res.ok) throw new Error(`Server error (${res.status})`);
-  return res.json();
+  try {
+    const res = await fetch(url, opts);
+    if (!res.ok) throw new Error(`Server error (${res.status})`);
+    return res.json();
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out. Please try again.');
+    throw e;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+// Sanitize string to prevent XSS from API responses
+function sanitize(str) {
+  if (!str || typeof str !== 'string') return str || '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Translate known Spanish terms from API to English
+function translateEsToEn(str) {
+  if (!str || typeof str !== 'string') return str;
+  return str
+    .replace(/Clásico/gi, 'Classic')
+    .replace(/Clasico/gi, 'Classic')
+    .replace(/Diario/gi, 'Short-term')
+    .replace(/Larga Estadía/gi, 'Long-term')
+    .replace(/Larga Estadia/gi, 'Long-term')
+    .replace(/Anual Multiviaje(s?)/gi, 'Annual Multi-trip')
+    .replace(/Estudiantil/gi, 'Student')
+    .replace(/Familiar/gi, 'Family')
+    .replace(/Corporativo/gi, 'Corporate')
+    .replace(/Futura Mamá/gi, 'Maternity')
+    .replace(/Futura Mama/gi, 'Maternity')
+    .replace(/Repatriación Sanitaria/gi, 'Medical Evacuation')
+    .replace(/Repatriación Funeraria/gi, 'Repatriation of Remains')
+    .replace(/Repatriaci[oó]n/gi, 'Repatriation')
+    .replace(/Asistencia Legal/gi, 'Legal Assistance')
+    .replace(/Asistencia M[eé]dica/gi, 'Medical Assistance')
+    .replace(/Compensaci[oó]n por Equipaje/gi, 'Baggage Compensation')
+    .replace(/Gastos M[eé]dicos/gi, 'Medical Expenses')
+    .replace(/Cancelaci[oó]n de Viaje/gi, 'Trip Cancellation')
+    .replace(/Demora de Equipaje/gi, 'Baggage Delay')
+    .replace(/P[eé]rdida de Equipaje/gi, 'Baggage Loss')
+    .replace(/Accidente Personal/gi, 'Personal Accident')
+    .replace(/P[eé]rdida de Documentos/gi, 'Loss of Documents')
+    .replace(/Odontol[oó]gica/gi, 'Dental')
+    .replace(/Regreso Anticipado/gi, 'Early Return')
+    .replace(/Muerte Accidental/gi, 'Accidental Death')
+    .replace(/Traslado de Familiar/gi, 'Family Transfer')
+    .replace(/Hospedaje por Convalecencia/gi, 'Convalescence Hotel')
+    .replace(/Vuelo Perdido/gi, 'Missed Flight')
+    .replace(/Demora de Vuelo/gi, 'Flight Delay')
+    .replace(/Transferencia de Fondos/gi, 'Fund Transfer')
+    .replace(/Fianza Legal/gi, 'Legal Bail Fund');
 }
 
 function showLoading(text) {

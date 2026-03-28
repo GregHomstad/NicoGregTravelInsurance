@@ -3,11 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compare Plans — TripKavach</title>
+  <title>Compare Coverage Tiers — TripKavach</title>
   <meta name="description" content="Compare TripKavach travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
-  <meta property="og:title" content="Compare Plans — TripKavach">
+  <link rel="canonical" href="https://tripkavach.com/plans/compare.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compare Coverage Tiers — TripKavach">
   <meta property="og:description" content="Compare TripKavach travel insurance plans side by side. See coverage details, benefits, and eligibility for short-term, long-term, and annual plans.">
+  <meta property="og:url" content="https://tripkavach.com/plans/compare.html">
+  <meta property="og:image" content="https://tripkavach.com/images/og-image.jpg">
   <meta property="og:type" content="website">
+  <link rel="preload" href="../fonts/inter/Inter-Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="../fonts/inter/Inter-Medium.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="../src/input.css">
 </head>
 <body class="font-sans text-text-body">
@@ -21,16 +29,19 @@
         <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
           <div class="dropdown relative">
             <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary rounded-lg bg-blue-50" aria-expanded="false" aria-haspopup="true">Plans <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
-            <div class="dropdown-menu absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2">
-              <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">All Plans</a>
-              <a href="short-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Short-term</a>
-              <a href="long-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Long-term</a>
+            <div class="dropdown-menu absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-3">
+              <div class="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Standard Trip Types</div>
+              <a href="short-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Short-term (Daily)</a>
+              <a href="long-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Long-term (Long-stay)</a>
               <a href="annual.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Annual Multi-trip</a>
-              <a href="family.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Family</a>
-              <a href="corporate.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Corporate</a>
-              <a href="student.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Student</a>
+              
+              <div class="px-4 py-1 mt-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Specialty Trip Types</div>
+              <a href="family.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Family Plan</a>
+              <a href="corporate.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Corporate Group</a>
+              <a href="student.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">International Student</a>
               <hr class="my-2 border-gray-100">
-              <a href="compare.html" class="block px-4 py-2 text-sm font-medium text-primary bg-blue-50">Compare Plans</a>
+              <a href="index.html" class="block px-4 py-2 text-sm font-medium text-primary hover:bg-blue-50 italic underline">View All Trip Types</a>
+              <a href="compare.html" class="block px-4 py-2 text-sm font-bold text-primary hover:bg-blue-50">Compare Coverage Tiers</a>
             </div>
           </div>
           <a href="../plan-finder.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Plan Finder</a>
@@ -59,15 +70,19 @@
     <div class="p-6">
       <div class="flex items-center justify-between mb-8"><span class="text-lg font-bold text-heading">Menu</span><button id="mobile-nav-close" class="p-2 text-gray-500 hover:text-gray-700" aria-label="Close menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
       <div class="space-y-1">
-        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">Plans</p>
-        <a href="index.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">All Plans</a>
-        <a href="short-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Short-term</a>
-        <a href="long-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Long-term</a>
+        <div class="px-3 py-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Standard Trip Types</div>
+        <a href="short-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Short-term (Daily)</a>
+        <a href="long-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Long-term (Long-stay)</a>
         <a href="annual.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Annual Multi-trip</a>
-        <a href="family.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Family</a>
-        <a href="corporate.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Corporate</a>
-        <a href="student.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Student</a>
-        <a href="compare.html" class="block px-3 py-2.5 font-medium text-primary bg-blue-50 rounded-lg">Compare Plans</a>
+        
+        <div class="px-3 py-2 mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Specialty Trip Types</div>
+        <a href="family.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Family Plan</a>
+        <a href="corporate.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Corporate Group</a>
+        <a href="student.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">International Student Plan</a>
+        
+        <hr class="my-4 border-gray-200">
+        <a href="index.html" class="block px-3 py-2.5 font-medium text-primary hover:bg-blue-50 rounded-lg italic underline text-sm">View All Trip Types</a>
+        <a href="compare.html" class="block px-3 py-2.5 font-bold text-primary bg-blue-50 rounded-lg">Compare Coverage Tiers</a>
         <hr class="my-4 border-gray-200">
         <a href="../plan-finder.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg font-medium">Plan Finder</a>
         <hr class="my-4 border-gray-200">
@@ -94,8 +109,8 @@
           <span class="mx-2">/</span>
           <span class="text-gray-700">Compare</span>
         </nav>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-heading mb-4">Compare Plans</h1>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">See how our plans stack up side by side to find the perfect coverage for your trip.</p>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-heading mb-4">Compare Coverage Tiers</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">See how our 5 coverage tiers stack up side by side to find the perfect medical limits for your trip. These tiers apply to all standard trip types.</p>
       </div>
     </section>
 
@@ -107,7 +122,7 @@
         <div class="flex flex-wrap justify-center gap-3 mb-8" id="plan-toggles">
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
             <input type="checkbox" class="plan-toggle accent-primary" data-plan="clasico" checked>
-            <span class="text-sm font-medium">Cl&aacute;sico</span>
+            <span class="text-sm font-medium">Classic</span>
           </label>
           <label class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-blue-50">
             <input type="checkbox" class="plan-toggle accent-primary" data-plan="ultra" checked>
@@ -133,13 +148,13 @@
             <thead>
               <tr class="bg-heading text-white">
                 <th class="px-4 py-4 text-left font-semibold sticky left-0 bg-heading z-10 min-w-[180px]" scope="col">Benefit</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-clasico" scope="col">Cl&aacute;sico ($10K)</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-ultra" scope="col">Ultra ($30K)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-clasico" scope="col">Classic ($10K / ₹8.3L)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-ultra" scope="col">Ultra ($30K / ₹25L)</th>
                 <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-ultraplus" scope="col">
-                  <div class="flex items-center justify-center gap-1">Ultra Plus ($60K) <span class="bg-white/20 text-xs px-1.5 py-0.5 rounded-full">Popular</span></div>
+                  <div class="flex items-center justify-center gap-1">Ultra Plus ($60K / ₹50L) <span class="bg-white/20 text-xs px-1.5 py-0.5 rounded-full">Popular</span></div>
                 </th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vip" scope="col">VIP ($100K)</th>
-                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vipplus" scope="col">VIP Plus ($250K)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vip" scope="col">VIP ($100K / ₹83L)</th>
+                <th class="px-4 py-4 text-center font-semibold min-w-[130px] plan-col-vipplus" scope="col">VIP Plus ($250K / ₹2Cr)</th>
               </tr>
             </thead>
             <tbody>
@@ -188,7 +203,7 @@
                 <td class="px-4 py-3 text-center plan-col-vipplus">$1,700</td>
               </tr>
               <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Medical Transport</td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10 text-primary">Emergency Medical Evacuation</td>
                 <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
                 <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
                 <td class="px-4 py-3 text-center plan-col-ultraplus">$60,000</td>
@@ -216,7 +231,7 @@
                 <td class="px-4 py-3 text-center plan-col-vipplus">$100,000</td>
               </tr>
               <tr class="border-b border-gray-100 bg-gray-50/50 hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10">Funeral Repatriation</td>
+                <td class="px-4 py-3 font-medium sticky left-0 bg-gray-50/50 z-10 text-primary">Safe Journey Home / Funeral Assistance</td>
                 <td class="px-4 py-3 text-center plan-col-clasico">$10,000</td>
                 <td class="px-4 py-3 text-center plan-col-ultra">$30,000</td>
                 <td class="px-4 py-3 text-center plan-col-ultraplus">$60,000</td>
@@ -330,7 +345,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">TripKavach</span></div><p class="text-sm text-gray-400 mb-4">Comprehensive travel insurance for Indian travelers visiting the United States. Powered by BMI Travel Assist.</p></div>
-        <div><h4 class="text-white font-semibold mb-4">Plans</h4><ul class="space-y-2 text-sm"><li><a href="short-term.html" class="hover:text-white transition-colors">Short-term</a></li><li><a href="long-term.html" class="hover:text-white transition-colors">Long-term</a></li><li><a href="annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li><li><a href="family.html" class="hover:text-white transition-colors">Family</a></li><li><a href="corporate.html" class="hover:text-white transition-colors">Corporate</a></li><li><a href="student.html" class="hover:text-white transition-colors">Student</a></li><li><a href="compare.html" class="hover:text-white transition-colors">Compare Plans</a></li></ul></div>
+                <div>
+          <h4 class="text-white font-semibold mb-4">Plans</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="short-term.html" class="hover:text-white transition-colors">Daily (Short-term)</a></li>
+            <li><a href="long-term.html" class="hover:text-white transition-colors">Long-stay (Long-term)</a></li>
+            <li><a href="annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li>
+            <li><a href="family.html" class="hover:text-white transition-colors">Family Plan</a></li>
+            <li><a href="corporate.html" class="hover:text-white transition-colors">Corporate Group</a></li>
+            <li><a href="student.html" class="hover:text-white transition-colors">International Student</a></li>
+            <li><a href="compare.html" class="hover:text-white transition-colors">Compare Coverage Tiers</a></li>
+          </ul>
+        </div>
         <div><h4 class="text-white font-semibold mb-4">Resources</h4><ul class="space-y-2 text-sm"><li><a href="../plan-finder.html" class="hover:text-white transition-colors">Plan Finder</a></li><li><a href="../claims.html" class="hover:text-white transition-colors">Claims Process</a></li><li><a href="../faq.html" class="hover:text-white transition-colors">FAQ</a></li><li><a href="../about.html" class="hover:text-white transition-colors">About Us</a></li><li><a href="../why-tripkavach.html" class="hover:text-white transition-colors">Why TripKavach</a></li></ul></div>
         <div><h4 class="text-white font-semibold mb-4">Contact</h4><ul class="space-y-2 text-sm"><li><a href="../contact.html" class="hover:text-white transition-colors">Contact Us</a></li><li><a href="../quote.html" class="hover:text-white transition-colors">Get a Quote</a></li></ul></div>
       </div>
@@ -347,9 +373,15 @@
   <!-- Google Translate -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      new google.translate.TranslateElement({
+        pageLanguage: 'en', 
+        includedLanguages: 'en,es,hi,bn,mr,te,ta,gu,ur,kn,ml,pa',
+        layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+      }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
+
+
