@@ -182,11 +182,10 @@ function collectTravelers() {
     const dob = $(`t-dob-${id}`)?.value;
     const genderId = $(`t-gender-${id}`)?.value;
     if (dob && genderId) {
-      const [y, m, d] = dob.split('-');
       travelers.push({
         travelerId: i + 1,
         genderId: parseInt(genderId, 10),
-        dateOfBirth: `${m}-${d}-${y}`, // MM-DD-YYYY
+        dateOfBirth: dob, // YYYY-MM-DD (ISO format, as BMI API expects)
       });
     }
   });
@@ -257,16 +256,13 @@ async function handleStep1() {
     return;
   }
 
-  const [fy, fm, fd] = fromDate.split('-');
-  const [ty, tm, td] = toDate.split('-');
-
   state.quoteParams = {
     sLanguage: 'en-us',
     sClient: client,
     nDeparture: parseInt(departure, 10),
     nDestination: parseInt(destination, 10),
-    dFromDate: `${fm}-${fd}-${fy}`,
-    dToDate: `${tm}-${td}-${ty}`,
+    dFromDate: fromDate,   // YYYY-MM-DD (ISO format, as BMI API expects)
+    dToDate: toDate,
     travelers,
   };
 
@@ -345,7 +341,7 @@ async function handleStep2() {
   const coverageIds = Array.from(checkboxes).map(cb => cb.dataset.coverageSeq);
   if (coverageIds.length === 0) { showError('Please select at least one coverage.'); return; }
 
-  state.selectedCoverageIds = `{${coverageIds.join(',')}}`;
+  state.selectedCoverageIds = coverageIds.join(',');
 
   showLoading('Loading coverage details...');
   try {
@@ -356,13 +352,13 @@ async function handleStep2() {
       sCoverageID: state.selectedCoverageIds,
     };
     const step2Res = await apiFetch('/api/quote/step2', 'POST', step2Body);
-    if (!step2Res.isSuccess) throw new Error(step2Res.message || 'Failed to confirm selection');
+    if (!step2Res.isSuccess && step2Res.code !== 0) throw new Error(step2Res.message || 'Failed to confirm selection');
 
     // Step 4 — get riders for the selected plan + first coverage
     const step4Body = {
       ...state.quoteParams,
       sReferenceID: state.referenceId,
-      sPlanID: `{${state.selectedPlan.planId}}`,
+      sPlanID: String(state.selectedPlan.planId),
       nCoverage: parseInt(coverageIds[0], 10),
     };
     const step4Res = await apiFetch('/api/quote/step4', 'POST', step4Body);
@@ -460,7 +456,7 @@ async function handleStep3() {
     benefitPairs.push(cb.dataset.benefit);
   });
 
-  state.selectedBenefits = benefitPairs.length > 0 ? `{${benefitPairs.join(',')}}` : '';
+  state.selectedBenefits = benefitPairs.length > 0 ? benefitPairs.join(',') : '';
   const promo = $('q-promo')?.value.trim() || '';
 
   showLoading('Finalizing your quote...');
@@ -468,8 +464,8 @@ async function handleStep3() {
     const step5Body = {
       ...state.quoteParams,
       sReferenceID: state.referenceId,
-      sPlanID: `{${state.selectedPlan.planId}}`,
-      nCoverage: parseInt(state.selectedCoverageIds.replace(/[{}]/g, '').split(',')[0], 10),
+      sPlanID: String(state.selectedPlan.planId),
+      nCoverage: parseInt(state.selectedCoverageIds.split(',')[0], 10),
       sBenefits: state.selectedBenefits,
       sPromotionalCode: promo,
     };

@@ -162,7 +162,7 @@ function validateStep1(body) {
   if (!Number.isInteger(Number(nDeparture))) return 'Valid departure country is required';
   if (!Number.isInteger(Number(nDestination))) return 'Valid destination is required';
   if (!dFromDate || !dToDate) return 'Travel dates are required';
-  if (!/^\d{2}-\d{2}-\d{4}$/.test(dFromDate) || !/^\d{2}-\d{2}-\d{4}$/.test(dToDate)) return 'Invalid date format';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dFromDate) || !/^\d{4}-\d{2}-\d{2}$/.test(dToDate)) return 'Invalid date format (expected YYYY-MM-DD)';
   if (!Array.isArray(travelers) || travelers.length === 0) return 'At least one traveler is required';
   if (travelers.length > 20) return 'Maximum 20 travelers allowed';
   for (const t of travelers) {
@@ -224,7 +224,7 @@ app.post('/api/quote/step2', async (req, res) => {
     const data = await bmiPost('/api/v1/ecommerce/Bmita/BmitaPremiumCalculationStep2', body);
     res.json(data);
   } catch (e) {
-    console.error('[Step2]', e.message);
+    console.error('[Step2] ERROR:', e.message, e.stack?.slice(0, 200));
     res.status(500).json({ isSuccess: false, message: 'Failed to confirm selection' });
   }
 });
