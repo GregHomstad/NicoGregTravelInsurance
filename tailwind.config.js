@@ -2,7 +2,8 @@
 export default {
   content: [
     "{.,plans}/**/*.html",
-    "./src/**/*.{css,js}"
+    "./src/**/*.{css,js}",
+    "./js/**/*.js"
   ],
   theme: {
     extend: {

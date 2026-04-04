@@ -1,6 +1,7 @@
 /**
  * TripKavach — Plan Finder Wizard
- * Interactive questionnaire that recommends a plan
+ * 3-step questionnaire: Duration → Pre-existing → Priority
+ * Recommends a plan type (Daily or Long-term) + coverage tier (Ultra Plus / VIP / VIP Plus)
  */
 
 const wizard = document.getElementById('plan-finder-wizard');
@@ -20,7 +21,6 @@ if (wizard) {
     steps.forEach((step, i) => {
       if (i === index) {
         step.classList.remove('hidden');
-        // Small timeout to allow display:block to apply before animating opacity
         setTimeout(() => step.classList.add('active'), 10);
       } else {
         step.classList.add('hidden');
@@ -90,65 +90,126 @@ if (wizard) {
     resultPanel.focus({ preventScroll: true });
   }
 
+  // --- Recommendation engine ---
+  // Picks plan type (Daily vs Long-term) from duration,
+  // then picks coverage tier from priority + pre-existing answers
   function recommendPlan(a) {
-    // Traveler type overrides
-    if (a.traveler === 'family') {
-      return plans.family;
-    }
-    if (a.traveler === 'corporate') {
-      return plans.corporate;
-    }
-    if (a.traveler === 'student') {
-      return plans.student;
+    // 1. Determine plan type
+    const isLong = a.duration === 'long';
+    const planType = isLong ? 'longterm' : 'shortterm';
+
+    // 2. Determine tier
+    let tier;
+    if (a.priority === 'comprehensive' || (a.preexisting === 'yes' && a.priority !== 'cost')) {
+      tier = 'vipplus';
+    } else if (a.priority === 'balanced' || a.preexisting === 'yes') {
+      tier = 'vip';
+    } else {
+      tier = 'ultraplus';
     }
 
-    // Duration-based
-    if (a.duration === 'multi') {
-      return plans.annual;
-    }
-    if (a.duration === 'long') {
-      return plans.longterm;
-    }
-
-    return plans.shortterm;
+    // 3. Build result key
+    const key = planType + '_' + tier;
+    return results[key];
   }
 
-  const plans = {
-    shortterm: {
-      name: 'Daily Trip Type (Short-term)',
-      description: 'Perfect for trips of 5 to 90 days. Coverage from US$10,000 to US$250,000 with zero deductibles and zero co-pays. Direct payment to hospitals.',
+  // --- Plan + Tier result definitions ---
+  const results = {
+    // Daily + Ultra Plus
+    shortterm_ultraplus: {
+      name: 'Daily Plan — Ultra Plus Tier',
+      description: 'Affordable coverage for short trips up to 90 days. $30,000 medical coverage with $500 pre-existing conditions limit. Great value for healthy travelers.',
       detailsUrl: 'plans/short-term.html',
-      features: ['5-90 day coverage', 'Zero deductibles, zero co-pays', 'Up to US$250,000 medical coverage', 'Pre-existing conditions up to US$6,000', 'COVID-19 included (WHO-approved vaccine required)', '24/7 own Assistance Center']
+      features: [
+        '5-90 day coverage · Ages up to 84',
+        '$30,000 medical coverage (accident & illness)',
+        '$500 pre-existing condition limit',
+        '$300 emergency dental',
+        '$2,000 trip cancellation',
+        'Zero deductibles · Direct hospital payment',
+        'COVID-19 included (age ≤ 75)',
+        '24/7 Assistance Center · Hindi & English'
+      ]
     },
-    longterm: {
-      name: 'Long-stay Trip Type',
-      description: 'Designed for extended stays of 60 to 365 days. Ideal for IT professionals on assignments, extended family visits, or long-term travel. Ages up to 65.',
+    // Daily + VIP
+    shortterm_vip: {
+      name: 'Daily Plan — VIP Tier',
+      description: 'Strong coverage for short trips up to 90 days. $100,000 medical coverage with $2,000 pre-existing conditions limit. Our most popular tier.',
+      detailsUrl: 'plans/short-term.html',
+      features: [
+        '5-90 day coverage · Ages up to 84',
+        '$100,000 medical coverage (accident & illness)',
+        '$2,000 pre-existing condition limit',
+        '$1,500 emergency dental',
+        '$2,000 trip cancellation',
+        'Zero deductibles · Direct hospital payment',
+        'COVID-19 included (age ≤ 75)',
+        '24/7 Assistance Center · Hindi & English'
+      ]
+    },
+    // Daily + VIP Plus
+    shortterm_vipplus: {
+      name: 'Daily Plan — VIP Plus Tier',
+      description: 'Our highest coverage for short trips up to 90 days. $250,000 medical coverage with $6,000 pre-existing conditions limit. Maximum protection and peace of mind.',
+      detailsUrl: 'plans/short-term.html',
+      features: [
+        '5-90 day coverage · Ages up to 84',
+        '$250,000 medical coverage (accident & illness)',
+        '$6,000 pre-existing condition limit',
+        '$1,700 emergency dental',
+        'Medical evacuation included (no sub-limit)',
+        '$2,200 trip cancellation · $3,000 lost baggage',
+        'Zero deductibles · Direct hospital payment',
+        '24/7 Assistance Center · Hindi & English'
+      ]
+    },
+    // Long-term + Ultra Plus
+    longterm_ultraplus: {
+      name: 'Long-term Plan — Ultra Plus Tier',
+      description: 'Affordable coverage for extended stays of 60 to 365 days. $30,000 medical coverage. Ideal for budget-conscious travelers on long visits.',
       detailsUrl: 'plans/long-term.html',
-      features: ['60-365 day coverage', 'Zero deductibles, zero co-pays', 'Up to US$250,000 medical coverage', 'Pre-existing conditions up to US$6,000', 'Direct payment to providers', 'Medical evacuation included']
+      features: [
+        '60-365 day coverage · Ages up to 65',
+        '$30,000 medical coverage (accident & illness)',
+        '$500 pre-existing condition limit',
+        '$300 emergency dental',
+        'Zero deductibles · Direct hospital payment',
+        'Medical evacuation up to $30,000',
+        'COVID-19 included (age ≤ 75)',
+        '24/7 Assistance Center · Hindi & English'
+      ]
     },
-    annual: {
-      name: 'Annual Multi-trip Type',
-      description: 'One policy covers unlimited trips for a full year. Choose 30, 45, 60, or 90 days maximum per trip. Must start each trip from India.',
-      detailsUrl: 'plans/annual.html',
-      features: ['Unlimited trips per year', 'Up to 90 days per trip', 'Zero deductibles, zero co-pays', 'Up to US$250,000 medical coverage', 'Trip cancellation up to US$2,200', '24/7 own Assistance Center']
+    // Long-term + VIP
+    longterm_vip: {
+      name: 'Long-term Plan — VIP Tier',
+      description: 'Strong coverage for extended stays of 60 to 365 days. $100,000 medical coverage with $2,000 pre-existing conditions limit. Popular with IT professionals and long-term visitors.',
+      detailsUrl: 'plans/long-term.html',
+      features: [
+        '60-365 day coverage · Ages up to 65',
+        '$100,000 medical coverage (accident & illness)',
+        '$2,000 pre-existing condition limit',
+        '$1,500 emergency dental',
+        'Zero deductibles · Direct hospital payment',
+        'Medical evacuation up to $100,000',
+        'COVID-19 included (age ≤ 75)',
+        '24/7 Assistance Center · Hindi & English'
+      ]
     },
-    family: {
-      name: 'Family Trip Type',
-      description: 'Cover your whole family under one policy. 2 adults (21-74) plus up to 3 children under 21. Minimum 3 people.',
-      detailsUrl: 'plans/family.html',
-      features: ['2 adults + up to 3 children', '5-90 day coverage', 'Zero deductibles, zero co-pays', 'Up to US$250,000 medical coverage', 'Pre-existing conditions covered', '24/7 own Assistance Center']
-    },
-    corporate: {
-      name: 'Corporate Trip Type',
-      description: 'Bulk day-pool for companies sending employees abroad. Pre-purchase 250+ days, assign to any traveler via self-service platform.',
-      detailsUrl: 'plans/corporate.html',
-      features: ['Pre-purchase 250+ days', 'Self-administration platform', 'Max 90 days per trip', 'Zero deductibles, zero co-pays', 'Up to US$250,000 medical coverage', 'Direct payment to providers']
-    },
-    student: {
-      name: 'Student Trip Type',
-      description: 'Designed for Indian students studying abroad. 4 to 12 months coverage, ages up to 45. Includes virtual doctor and psychological support.',
-      detailsUrl: 'plans/student.html',
-      features: ['4-12 month coverage', 'Ages up to 45', 'Up to US$100,000 medical coverage', 'Virtual doctor & psychological support', 'Concierge service included', 'Trip & cruise tracking']
+    // Long-term + VIP Plus
+    longterm_vipplus: {
+      name: 'Long-term Plan — VIP Plus Tier',
+      description: 'Our highest coverage for extended stays of 60 to 365 days. $250,000 medical coverage with $6,000 pre-existing conditions limit. Maximum protection for long visits.',
+      detailsUrl: 'plans/long-term.html',
+      features: [
+        '60-365 day coverage · Ages up to 65',
+        '$250,000 medical coverage (accident & illness)',
+        '$6,000 pre-existing condition limit',
+        '$1,700 emergency dental',
+        'Medical evacuation included (no sub-limit)',
+        '$2,200 trip cancellation · $3,000 lost baggage',
+        'Zero deductibles · Direct hospital payment',
+        '24/7 Assistance Center · Hindi & English'
+      ]
     }
   };
 
@@ -180,4 +241,3 @@ if (wizard) {
   // Init
   showStep(0);
 } // end if (wizard)
-

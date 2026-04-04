@@ -151,3 +151,101 @@ body { top: 0 !important; }
   opacity: 1;
   transform: translateX(0);
 }
+
+/* ===== Persona cards — border-3 utility ===== */
+.border-3 { border-width: 3px; }
+
+/* ===== Path-conditional visibility ===== */
+.path-self,
+.path-family { display: none; }
+body.mode-self .path-self { display: block; }
+body.mode-family .path-family { display: block; }
+body.mode-self .path-self-inline { display: inline; }
+body.mode-family .path-family-inline { display: inline; }
+.path-self-inline,
+.path-family-inline { display: none; }
+
+/* Path selector cards */
+.path-card {
+  transition: all 0.2s ease;
+}
+.path-card:hover {
+  border-color: #0073e6;
+  background: #eef6ff;
+}
+
+/* Stat boxes */
+.stat-box .number {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* Social proof stars */
+.stars {
+  color: #f5a623;
+  letter-spacing: 2px;
+}
+
+/* Plan cards */
+.plan-card.recommended {
+  border: 2px solid #0073e6;
+  background: #eef6ff;
+}
+.plan-card .badge {
+  display: inline-block;
+  background: #0073e6;
+  color: #fff;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.plan-card .badge-family {
+  background: #c0392b;
+}
+
+/* FAQ details styling */
+details.faq-detail summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.faq-detail summary::-webkit-details-marker {
+  display: none;
+}
+details.faq-detail summary::before {
+  content: '+';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #eef6ff;
+  color: #0073e6;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+details.faq-detail[open] summary::before {
+  content: '−';
+}
+
+/* Mobile-friendly footer touch targets */
+@media (max-width: 639px) {
+  footer ul a {
+    display: block;
+    padding: 6px 0;
+  }
+  footer .flex.gap-6 a {
+    padding: 6px 0;
+  }
+}
+
+/* Expandable toggle */
+.expandable-content {
+  display: none;
+}
+.expandable-content.open {
+  display: block;
+}

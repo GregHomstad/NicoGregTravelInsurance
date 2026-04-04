@@ -12,7 +12,9 @@ export default defineConfig({
         faq: resolve(__dirname, 'faq.html'),
         planfinder: resolve(__dirname, 'plan-finder.html'),
         privacy: resolve(__dirname, 'privacy.html'),
+        conditions: resolve(__dirname, 'conditions.html'),
         terms: resolve(__dirname, 'terms.html'),
+        travelinfo: resolve(__dirname, 'travel-info.html'),
         quote: resolve(__dirname, 'quote.html'),
         whytripkavach: resolve(__dirname, 'why-tripkavach.html'),
         plans: resolve(__dirname, 'plans/index.html'),
@@ -30,7 +32,7 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:3002',
         changeOrigin: true,
       }
     }

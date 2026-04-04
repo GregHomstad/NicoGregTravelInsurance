@@ -1,5 +1,7 @@
+# TripKavach — robots.txt
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /server/
 
 Sitemap: https://tripkavach.com/sitemap.xml

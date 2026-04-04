@@ -3,12 +3,14 @@ node_modules/
 
 # Build output
 dist/
+.vercel/
 
-# Environment
+# Environment & Secrets
 .env
 .env.local
 .env.*.local
 server/.env
+server/vault.enc
 
 # Editor
 .vscode/

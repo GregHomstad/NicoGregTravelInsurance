@@ -4,16 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us — TripKavach</title>
-  <meta name="description" content="Learn about TripKavach — providing comprehensive travel insurance for visitors to the United States, powered by BMI Travel Assist.">
+  <meta name="description" content="Learn about TripKavach — providing comprehensive travel protection for visitors to the United States, powered by BMI Travel Assist.">
   <link rel="canonical" href="https://tripkavach.com/about.html">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:title" content="About Us — TripKavach">
-  <meta property="og:description" content="Learn about TripKavach — providing comprehensive travel insurance for visitors to the United States, powered by BMI Travel Assist.">
+  <meta property="og:description" content="Learn about TripKavach — providing comprehensive travel protection for visitors to the United States, powered by BMI Travel Assist.">
   <meta property="og:url" content="https://tripkavach.com/about.html">
   <meta property="og:image" content="https://tripkavach.com/images/og-image.jpg">
   <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Us — TripKavach">
+  <meta name="twitter:description" content="Learn about TripKavach — providing comprehensive travel protection for visitors to the United States, powered by BMI Travel Assist.">
+  <meta name="twitter:image" content="https://tripkavach.com/images/og-image.jpg">
+
   <link rel="preload" href="fonts/inter/Inter-Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/inter/Inter-Medium.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="./src/input.css">
@@ -29,28 +36,13 @@
           <div class="dropdown relative">
             <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors" aria-expanded="false" aria-haspopup="true">Plans <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
             <div class="dropdown-menu absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-3">
-              <div class="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Standard Trip Types</div>
               <a href="plans/short-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Short-term (Daily)</a>
               <a href="plans/long-term.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Long-term (Long-stay)</a>
-              <a href="plans/annual.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Annual Multi-trip</a>
-              
-              <div class="px-4 py-1 mt-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Specialty Trip Types</div>
-              <a href="plans/family.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Family Plan</a>
-              <a href="plans/corporate.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Corporate Group</a>
-              <a href="plans/student.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">International Student</a>
               <hr class="my-2 border-gray-100">
-              <a href="plans/index.html" class="block px-4 py-2 text-sm font-medium text-primary hover:bg-blue-50 italic underline">View All Trip Types</a>
               <a href="plans/compare.html" class="block px-4 py-2 text-sm font-bold text-primary hover:bg-blue-50">Compare Coverage Tiers</a>
             </div>
           </div>
-          <a href="plan-finder.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Plan Finder</a>
-          <div class="dropdown relative">
-            <button class="dropdown-trigger flex items-center gap-1 px-3 py-2 text-sm font-medium text-primary rounded-lg bg-blue-50" aria-expanded="false" aria-haspopup="true">About <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
-            <div class="dropdown-menu absolute top-full left-0 mt-1 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2">
-              <a href="about.html" class="block px-4 py-2 text-sm text-primary font-medium bg-blue-50">About Us</a>
-              <a href="why-tripkavach.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary">Why TripKavach</a>
-            </div>
-          </div>
+          <a href="plans/compare.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Coverage</a>
           <a href="claims.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Claims</a>
           <a href="faq.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">FAQ</a>
           <a href="contact.html" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors">Contact</a>
@@ -68,28 +60,19 @@
   <nav id="mobile-nav" class="mobile-nav fixed top-0 right-0 h-full w-80 max-w-full bg-white z-50 overflow-y-auto shadow-2xl" aria-label="Mobile navigation">
     <div class="p-6">
       <div class="flex items-center justify-between mb-8"><span class="text-lg font-bold text-heading">Menu</span><button id="mobile-nav-close" class="p-2 text-gray-500 hover:text-gray-700" aria-label="Close menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="px-3 py-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Standard Trip Types</div>
+
+      <div class="space-y-1">
         <a href="plans/short-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Short-term (Daily)</a>
         <a href="plans/long-term.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Long-term (Long-stay)</a>
-        <a href="plans/annual.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Annual Multi-trip</a>
-        
-        <div class="px-3 py-2 mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 border-b border-gray-100 pb-1">Specialty Trip Types</div>
-        <a href="plans/family.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Family Plan</a>
-        <a href="plans/corporate.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Corporate Group</a>
-        <a href="plans/student.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">International Student Plan</a>
-        
         <hr class="my-4 border-gray-200">
-        <a href="plans/index.html" class="block px-3 py-2.5 font-medium text-primary hover:bg-blue-50 rounded-lg italic underline text-sm">View All Trip Types</a>
-        <a href="plans/compare.html" class="block px-3 py-2.5 font-bold text-primary hover:bg-blue-50 rounded-lg">Compare Coverage Tiers</a>
+        <a href="plans/compare.html" class="block px-3 py-2.5 font-bold text-primary hover:bg-blue-50 rounded-lg">Coverage</a>
         <hr class="my-4 border-gray-200">
-        <a href="plan-finder.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg font-medium">Plan Finder</a>
-        <hr class="my-4 border-gray-200">
-        <a href="about.html" class="block px-3 py-2.5 text-primary font-medium bg-blue-50 rounded-lg">About Us</a>
-        <a href="why-tripkavach.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Why TripKavach</a>
         <a href="claims.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Claims</a>
         <a href="faq.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">FAQ</a>
         <a href="contact.html" class="block px-3 py-2.5 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg">Contact</a>
+      </div>
       <div class="mt-8"><a href="quote.html" class="block w-full text-center bg-primary hover:bg-primary-hover text-white font-medium py-3 px-6 rounded-lg transition-colors">Get a Quote</a></div>
+    
     </div>
   </nav>
 
@@ -99,7 +82,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl">
           <h1 class="text-4xl md:text-5xl font-bold text-heading mb-6">About TripKavach</h1>
-          <p class="text-lg text-gray-600">We provide comprehensive, affordable travel insurance for Indian travelers visiting the United States — so you can travel with complete peace of mind.</p>
+          <p class="text-lg text-gray-600">We provide comprehensive, affordable travel protection for Indian travelers visiting the United States — so you can travel with complete peace of mind.</p>
         </div>
       </div>
     </section>
@@ -110,7 +93,7 @@
         <div class="max-w-3xl">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold text-heading mb-6">Our Mission</h2>
-            <p class="text-gray-600 mb-4">TripKavach was created to serve the Indian traveler community with travel insurance that is easy, transparent, and genuinely protective. In partnership with BMI Travel Assist — a subsidiary of BMI Financial Group with over 50 years of experience — we bring world-class coverage to Indian travelers visiting the United States.</p>
+            <p class="text-gray-600 mb-4">TripKavach was created to serve the Indian traveler community with travel protection that is easy, transparent, and genuinely protective. In partnership with BMI Travel Assist — a subsidiary of BMI Financial Group with over 50 years of experience — we bring world-class coverage to Indian travelers visiting the United States.</p>
             <p class="text-gray-600 mb-4">We believe that your health history shouldn't prevent you from traveling. That's why our plans cover pre-existing conditions, charge zero deductibles, and pay healthcare providers directly — so you never face reimbursement hassles abroad.</p>
             <p class="text-gray-600 mb-4">We serve the Indian diaspora — families visiting loved ones, IT professionals on assignments, students pursuing higher education, and tourists exploring the US. Our own 24/7 Assistance Center ensures quality control at every step.</p>
             <p class="text-gray-600">Whether you're visiting family, studying abroad, or on a business trip, we have a plan designed for you.</p>
@@ -129,7 +112,7 @@
               <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <h3 class="font-bold text-heading mb-2">Multiple Plan Types</h3>
-            <p class="text-sm text-gray-600">Short-term, long-term, annual, family, corporate, and student plans tailored to your trip.</p>
+            <p class="text-sm text-gray-600">Daily (short-term) and long-term plans with 3 coverage tiers tailored to your trip.</p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow-sm text-center">
             <div class="w-14 h-14 mx-auto mb-4 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -191,17 +174,12 @@
   <footer class="bg-navy text-gray-300 py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">TripKavach</span></div><p class="text-sm text-gray-400 mb-4">Comprehensive travel insurance for Indian travelers visiting the United States. Powered by BMI Travel Assist.</p></div>
+        <div><div class="flex items-center gap-2 mb-4"><img src="/images/logo-feature.png" alt="TripKavach Logo" class="h-12 brightness-0 invert"><span class="text-2xl font-bold text-white tracking-tight">TripKavach</span></div><p class="text-sm text-gray-400 mb-4">Travel protection coverage for Indian travelers visiting the United States. Powered by BMI Travel Assist.</p></div>
                 <div>
           <h4 class="text-white font-semibold mb-4">Plans</h4>
           <ul class="space-y-2 text-sm">
             <li><a href="plans/short-term.html" class="hover:text-white transition-colors">Daily (Short-term)</a></li>
-            <li><a href="plans/long-term.html" class="hover:text-white transition-colors">Long-stay (Long-term)</a></li>
-            <li><a href="plans/annual.html" class="hover:text-white transition-colors">Annual Multi-trip</a></li>
-            <li><a href="plans/family.html" class="hover:text-white transition-colors">Family Plan</a></li>
-            <li><a href="plans/corporate.html" class="hover:text-white transition-colors">Corporate Group</a></li>
-            <li><a href="plans/student.html" class="hover:text-white transition-colors">International Student</a></li>
-            <li><a href="plans/compare.html" class="hover:text-white transition-colors">Compare Coverage Tiers</a></li>
+            <li><a href="plans/long-term.html" class="hover:text-white transition-colors">Long-stay (Long-term)</a></li>            <li><a href="plans/compare.html" class="hover:text-white transition-colors">Compare Coverage Tiers</a></li>
           </ul>
         </div>
         <div><h4 class="text-white font-semibold mb-4">Resources</h4><ul class="space-y-2 text-sm"><li><a href="plan-finder.html" class="hover:text-white transition-colors">Plan Finder</a></li><li><a href="claims.html" class="hover:text-white transition-colors">Claims Process</a></li><li><a href="faq.html" class="hover:text-white transition-colors">FAQ</a></li><li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li><li><a href="why-tripkavach.html" class="hover:text-white transition-colors">Why TripKavach</a></li></ul></div>

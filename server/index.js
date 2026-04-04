@@ -5,21 +5,43 @@ import compression from 'compression';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 config({ path: join(__dirname, '.env') });
 
+// --- Secrets Engine: prefer encrypted vault, fall back to .env ---
+let secrets = {};
+const vaultPath = join(__dirname, 'vault.enc');
+
+if (existsSync(vaultPath) && process.env.VAULT_KEY) {
+  try {
+    const { load } = await import('./vault.js');
+    secrets = load(process.env.VAULT_KEY);
+    console.log('[Secrets] Loaded credentials from encrypted vault');
+  } catch (e) {
+    console.error(`[Secrets] FATAL: Failed to decrypt vault: ${e.message}`);
+    process.exit(1);
+  }
+} else if (process.env.BMI_AUTH_USER && process.env.BMI_AUTH_KEY) {
+  console.log('[Secrets] Using .env credentials (vault not found or VAULT_KEY not set)');
+} else {
+  console.error('FATAL: No credentials available. Either set VAULT_KEY + vault.enc, or provide BMI_AUTH_USER/BMI_AUTH_KEY in .env');
+  process.exit(1);
+}
+
 // --- Startup Validation ---
 const BMI_BASE = process.env.BMI_API_BASE || 'https://api.bmicos.com/bmiecommerce/sandbox/v4';
-const BMI_AUTH_USER = process.env.BMI_AUTH_USER;
-const BMI_AUTH_KEY = process.env.BMI_AUTH_KEY;
-const BMI_AGENT_ID = parseInt(process.env.BMI_AGENT_ID || '16111', 10);
+const BMI_AUTH_USER = secrets.BMI_AUTH_USER || process.env.BMI_AUTH_USER;
+const BMI_AUTH_KEY = secrets.BMI_AUTH_KEY || process.env.BMI_AUTH_KEY;
+const BMI_AGENT_ID = parseInt(secrets.BMI_AGENT_ID || process.env.BMI_AGENT_ID || '16111', 10);
+const PROXY_API_KEY = secrets.PROXY_API_KEY || process.env.PROXY_API_KEY;
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 if (!BMI_AUTH_USER || !BMI_AUTH_KEY) {
-  console.error('FATAL: BMI_AUTH_USER and BMI_AUTH_KEY must be set in server/.env');
+  console.error('FATAL: BMI_AUTH_USER and BMI_AUTH_KEY must be set in server/.env or vault');
   process.exit(1);
 }
 
@@ -28,9 +50,15 @@ if (!BMI_BASE.startsWith('https://api.bmicos.com/')) {
   process.exit(1);
 }
 
+if (!PROXY_API_KEY) {
+  console.warn('[Security] WARNING: PROXY_API_KEY not set — proxy endpoints are unprotected');
+}
+
 const FETCH_TIMEOUT = 20_000; // 20s timeout for upstream BMI calls
 
 const app = express();
+
+app.get('/test-ping', (req, res) => res.send('pong'));
 
 // --- Trust proxy (required for rate limiter behind nginx/cloudflare) ---
 app.set('trust proxy', 1);
@@ -44,7 +72,7 @@ app.use(compression());
 // --- CORS ---
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
-  : ['http://localhost:5173', 'http://localhost:3000'];
+  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -78,6 +106,18 @@ function rateLimiter(req, res, next) {
   next();
 }
 app.use('/api/', rateLimiter);
+
+// --- API Key Authentication (skip health check + test-ping) ---
+function apiKeyAuth(req, res, next) {
+  if (!PROXY_API_KEY) return next(); // no key configured → allow (dev mode)
+  if (req.path === '/health') return next(); // health check is public (path is relative to /api/ mount)
+  const provided = req.headers['x-api-key'];
+  if (!provided || provided !== PROXY_API_KEY) {
+    return res.status(401).json({ isSuccess: false, message: 'Unauthorized' });
+  }
+  next();
+}
+app.use('/api/', apiKeyAuth);
 
 // Clean up rate limit map periodically
 const cleanupInterval = setInterval(() => {
@@ -120,21 +160,30 @@ async function getToken() {
 // --- BMI API Helpers (with timeout + status checks) ---
 async function bmiPost(endpoint, body) {
   const token = await getToken();
-  const res = await fetch(`${BMI_BASE}${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(FETCH_TIMEOUT),
-  });
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    console.error(`[BMI] POST ${endpoint} returned ${res.status}: ${text.slice(0, 200)}`);
-    throw new Error(`BMI API error (${res.status})`);
+  const url = `${BMI_BASE}${endpoint}`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error(`[BMI] POST ${endpoint} returned ${res.status}: ${text}`);
+      throw new Error(`BMI API error (${res.status}): ${text.slice(0, 500)}`);
+    }
+    return res.json();
+  } catch (e) {
+    if (e.name === 'TimeoutError' || e.name === 'AbortError') {
+      console.error(`[BMI] POST ${endpoint} TIMEOUT after ${FETCH_TIMEOUT}ms`);
+      throw new Error('BMI API request timed out');
+    }
+    throw e;
   }
-  return res.json();
 }
 
 async function bmiGet(endpoint, params = {}) {
@@ -177,14 +226,85 @@ function validateReferenceId(body) {
 }
 
 function validateStep7(body) {
-  const { ReferenceID, sContactName, sContactEmail, sCardNumber, nCardType, sCardName, nCardMonth, nCardYear, travelers } = body;
-  if (!ReferenceID) return 'Reference ID is required';
+  const { sReferenceID, sContactName, sContactEmail, sCardNumber, nCardType, sCardName, nCardMonth, nCardYear, travelers } = body;
+  if (!sReferenceID) return 'Reference ID is required';
   if (!sContactName || !sContactEmail) return 'Contact info is required';
   if (!sCardNumber || !nCardType || !sCardName || !nCardMonth || !nCardYear) return 'Card details are required';
   if (!/^\d{13,19}$/.test(String(sCardNumber).replace(/\s/g, ''))) return 'Invalid card number';
   if (!Array.isArray(travelers) || travelers.length === 0) return 'Traveler details are required';
   return null;
 }
+
+// --- Travel Info Proxy Routes (FAA / NWS) ---
+const travelCache = new Map();
+const CACHE_TTL = 300_000; // 5 minutes
+
+app.get('/api/travel/airport-status/:code', async (req, res) => {
+  console.log(`[TravelInfo] Hit: /api/travel/airport-status/${req.params.code}`);
+  const code = req.params.code.toUpperCase().slice(0, 3);
+  const cacheKey = `airport-${code}`;
+  const now = Date.now();
+  
+  if (travelCache.has(cacheKey)) {
+    const entry = travelCache.get(cacheKey);
+    if (now - entry.timestamp < CACHE_TTL) return res.json(entry.data);
+  }
+
+  try {
+    // New FAA NAS Status API (returns status info for major US airports)
+    const response = await fetch('https://nasstatus.faa.gov/api/airport-status-information', {
+      headers: { 
+        'Accept': 'application/json, text/xml',
+        'User-Agent': 'TripKavach Travel Monitor (contact@tripkavach.com)'
+      },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) throw new Error(`FAA API returned ${response.status}`);
+    
+    // The API might return XML or JSON. Let's try to handle it.
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.json();
+      // Find the specific airport in the array
+      const airportData = Array.isArray(data) ? data.find(a => a.AirportCode === code) : data;
+      travelCache.set(cacheKey, { timestamp: now, data: { Status: airportData || { Delay: 'false', Reason: 'No delays reported' } } });
+      res.json(travelCache.get(cacheKey).data);
+    } else {
+      // If XML, we just return a "Normal" status for now as we don't have an XML parser in the proxy yet
+      // but we know the API is alive.
+      res.json({ Status: { Delay: 'false', Reason: 'Status available (XML)' } });
+    }
+  } catch (e) {
+    console.error(`[TravelInfo:Airport] ${code}:`, e.message);
+    res.status(502).json({ isSuccess: false, message: 'External API error' });
+  }
+});
+
+app.get('/api/travel/weather-alerts/:area', async (req, res) => {
+  console.log(`[TravelInfo] Hit: /api/travel/weather-alerts/${req.params.area}`);
+  const area = req.params.area.toUpperCase().slice(0, 2); // e.g. "NY", "CA"
+  const cacheKey = `weather-${area}`;
+  const now = Date.now();
+
+  if (travelCache.has(cacheKey)) {
+    const entry = travelCache.get(cacheKey);
+    if (now - entry.timestamp < CACHE_TTL) return res.json(entry.data);
+  }
+
+  try {
+    const response = await fetch(`https://api.weather.gov/alerts/active?area=${area}`, {
+      headers: { 'User-Agent': 'TripKavach Travel Monitor (contact@tripkavach.com)' },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) throw new Error(`Weather API returned ${response.status}`);
+    const data = await response.json();
+    travelCache.set(cacheKey, { timestamp: now, data });
+    res.json(data);
+  } catch (e) {
+    console.error(`[TravelInfo:Weather] ${area}:`, e.message);
+    res.status(502).json({ isSuccess: false, message: 'External API error' });
+  }
+});
 
 // --- Quote Routes ---
 
@@ -210,8 +330,8 @@ app.post('/api/quote/step1', async (req, res) => {
     const data = await bmiPost('/api/v1/ecommerce/Bmita/BmitaPremiumCalculationStep1', body);
     res.json(data);
   } catch (e) {
-    console.error('[Step1]', e.message);
-    res.status(500).json({ isSuccess: false, message: 'Failed to calculate premiums' });
+    console.error('[Step1] ERROR:', e.message, e.stack);
+    res.status(500).json({ isSuccess: false, message: `Failed to calculate premiums: ${e.message}` });
   }
 });
 
@@ -224,8 +344,8 @@ app.post('/api/quote/step2', async (req, res) => {
     const data = await bmiPost('/api/v1/ecommerce/Bmita/BmitaPremiumCalculationStep2', body);
     res.json(data);
   } catch (e) {
-    console.error('[Step2] ERROR:', e.message, e.stack?.slice(0, 200));
-    res.status(500).json({ isSuccess: false, message: 'Failed to confirm selection' });
+    console.error('[Step2] ERROR:', e.message, e.stack);
+    res.status(500).json({ isSuccess: false, message: `Failed to confirm selection: ${e.message}` });
   }
 });
 
@@ -292,7 +412,7 @@ app.post('/api/quote/step7', async (req, res) => {
     if (err) return res.status(400).json({ isSuccess: false, message: err });
     // Whitelist only expected fields — never forward raw req.body
     const body = {
-      ReferenceID: req.body.ReferenceID,
+      sReferenceID: req.body.sReferenceID,
       sContactName: String(req.body.sContactName).slice(0, 200),
       sContactEmail: String(req.body.sContactEmail).slice(0, 200),
       sContactPhone: String(req.body.sContactPhone || '').slice(0, 30),
