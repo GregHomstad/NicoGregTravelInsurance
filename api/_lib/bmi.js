@@ -7,7 +7,7 @@
 const BMI_BASE = process.env.BMI_API_BASE || 'https://api.bmicos.com/bmiecommerce/sandbox/v4';
 const BMI_AUTH_USER = process.env.BMI_AUTH_USER;
 const BMI_AUTH_KEY = process.env.BMI_AUTH_KEY;
-export const BMI_AGENT_ID = parseInt(process.env.BMI_AGENT_ID || '16111', 10);
+export const BMI_AGENT_ID = parseInt(process.env.BMI_AGENT_ID, 10);
 
 const FETCH_TIMEOUT = 20_000;
 

@@ -23,7 +23,8 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-DNS-Prefetch-Control", "value": "off" }
+        { "key": "X-DNS-Prefetch-Control", "value": "off" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' translate.google.com translate.googleapis.com; style-src 'self' 'unsafe-inline' translate.googleapis.com; img-src 'self' data: translate.google.com www.google.com www.gstatic.com; frame-src translate.google.com;" }
       ]
     }
   ]
