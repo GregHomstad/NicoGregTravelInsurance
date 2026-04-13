@@ -10,7 +10,6 @@ dist/
 .env.local
 .env.*.local
 server/.env
-server/vault.enc
 
 # Editor
 .vscode/

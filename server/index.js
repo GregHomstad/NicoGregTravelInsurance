@@ -5,7 +5,6 @@ import compression from 'compression';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { existsSync } from 'fs';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,36 +12,16 @@ const __dirname = dirname(__filename);
 
 config({ path: join(__dirname, '.env') });
 
-// --- Secrets Engine: prefer encrypted vault, fall back to .env ---
-let secrets = {};
-const vaultPath = join(__dirname, 'vault.enc');
-
-if (existsSync(vaultPath) && process.env.VAULT_KEY) {
-  try {
-    const { load } = await import('./vault.js');
-    secrets = load(process.env.VAULT_KEY);
-    console.log('[Secrets] Loaded credentials from encrypted vault');
-  } catch (e) {
-    console.error(`[Secrets] FATAL: Failed to decrypt vault: ${e.message}`);
-    process.exit(1);
-  }
-} else if (process.env.BMI_AUTH_USER && process.env.BMI_AUTH_KEY) {
-  console.log('[Secrets] Using .env credentials (vault not found or VAULT_KEY not set)');
-} else {
-  console.error('FATAL: No credentials available. Either set VAULT_KEY + vault.enc, or provide BMI_AUTH_USER/BMI_AUTH_KEY in .env');
-  process.exit(1);
-}
-
 // --- Startup Validation ---
 const BMI_BASE = process.env.BMI_API_BASE || 'https://api.bmicos.com/bmiecommerce/sandbox/v4';
-const BMI_AUTH_USER = secrets.BMI_AUTH_USER || process.env.BMI_AUTH_USER;
-const BMI_AUTH_KEY = secrets.BMI_AUTH_KEY || process.env.BMI_AUTH_KEY;
-const BMI_AGENT_ID = parseInt(secrets.BMI_AGENT_ID || process.env.BMI_AGENT_ID || '16111', 10);
-const PROXY_API_KEY = secrets.PROXY_API_KEY || process.env.PROXY_API_KEY;
-const PORT = parseInt(process.env.PORT || '3001', 10);
+const BMI_AUTH_USER = process.env.BMI_AUTH_USER;
+const BMI_AUTH_KEY = process.env.BMI_AUTH_KEY;
+const BMI_AGENT_ID = parseInt(process.env.BMI_AGENT_ID, 10);
+const PROXY_API_KEY = process.env.PROXY_API_KEY;
+const PORT = parseInt(process.env.PORT || '3002', 10);
 
-if (!BMI_AUTH_USER || !BMI_AUTH_KEY) {
-  console.error('FATAL: BMI_AUTH_USER and BMI_AUTH_KEY must be set in server/.env or vault');
+if (!BMI_AUTH_USER || !BMI_AUTH_KEY || !BMI_AGENT_ID) {
+  console.error('FATAL: BMI_AUTH_USER, BMI_AUTH_KEY, and BMI_AGENT_ID must be set as environment variables');
   process.exit(1);
 }
 
