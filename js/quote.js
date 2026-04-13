@@ -17,6 +17,10 @@ const SOLD_TIERS = ['ultra', 'vip', 'vip plus'];
 // Rename BMI's "Ultra" tier to "Ultra Plus" for display
 const TIER_RENAME = { 'Ultra': 'Ultra Plus', 'ultra': 'Ultra Plus' };
 
+// T&C version identifier. Bump when terms.html changes.
+// Keep in sync with CURRENT_TERMS_VERSION in api/consent.js.
+const TERMS_VERSION = '2026-04-10';
+
 // --- State ---
 const state = {
   currentStep: 1,
@@ -991,6 +995,23 @@ async function handlePayment() {
   }
 
   if (!valid) { showError('Please fix the highlighted fields.'); return; }
+
+  // Record T&C agreement audit trail before attempting payment, so we have
+  // proof of consent even if the BMI payment call fails downstream.
+  // Failures here are logged but do not block the user.
+  try {
+    const consentRes = await apiFetch('/api/consent', 'POST', {
+      termsVersion: TERMS_VERSION,
+      referenceId: state.referenceId,
+      email: payerEmail,
+      name: contactName,
+      phone: contactPhone,
+      agreedAt: new Date().toISOString(),
+    });
+    if (consentRes?.isSuccess) state.consentId = consentRes.consentId;
+  } catch (e) {
+    console.warn('[Consent] Failed to record:', e.message);
+  }
 
   // Validate traveler details
   const travelers = state.quoteParams.travelers.map((t, i) => ({
