@@ -1107,7 +1107,7 @@ async function apiFetch(url, method = 'GET', body = null) {
   }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000);
-  const opts = { method, headers: { 'x-api-key': TRIPKAVACH_API_KEY }, signal: controller.signal };
+  const opts = { method, headers: { 'x-api-key': import.meta.env.VITE_API_KEY || '' }, signal: controller.signal };
   if (body && method !== 'GET') {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(body);

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchAirportStatus(code) {
     try {
-      const res = await fetch(`${API_BASE}/airport-status/${code}`, { headers: { 'x-api-key': TRIPKAVACH_API_KEY } });
+      const res = await fetch(`${API_BASE}/airport-status/${code}`, { headers: { 'x-api-key': import.meta.env.VITE_API_KEY || '' } });
       if (!res.ok) throw new Error('API Error');
       const data = await res.json();
       return data;
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchWeatherAlerts(areaCode) {
     try {
-      const res = await fetch(`${API_BASE}/weather-alerts/${areaCode}`, { headers: { 'x-api-key': TRIPKAVACH_API_KEY } });
+      const res = await fetch(`${API_BASE}/weather-alerts/${areaCode}`, { headers: { 'x-api-key': import.meta.env.VITE_API_KEY || '' } });
       if (!res.ok) throw new Error('API Error');
       const data = await res.json();
       return data;
