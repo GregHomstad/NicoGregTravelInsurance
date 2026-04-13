@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync } from 'fs';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -55,6 +56,13 @@ if (!PROXY_API_KEY) {
 }
 
 const FETCH_TIMEOUT = 20_000; // 20s timeout for upstream BMI calls
+
+// --- Supabase (consent record persistence) ---
+const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+  ? createSupabaseClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
+if (supabase) console.log('[Supabase] Client initialized');
+else console.log('[Supabase] Not configured — consent records will be log-only');
 
 const app = express();
 
@@ -232,6 +240,17 @@ function validateStep7(body) {
   if (!sCardNumber || !nCardType || !sCardName || !nCardMonth || !nCardYear) return 'Card details are required';
   if (!/^\d{13,19}$/.test(String(sCardNumber).replace(/\s/g, ''))) return 'Invalid card number';
   if (!Array.isArray(travelers) || travelers.length === 0) return 'Traveler details are required';
+  return null;
+}
+
+function validateConsent(body) {
+  if (!body || typeof body !== 'object') return 'Request body is required';
+  if (!body.termsVersion || typeof body.termsVersion !== 'string') return 'termsVersion is required';
+  if (!body.referenceId || typeof body.referenceId !== 'string') return 'referenceId is required';
+  if (!body.email || typeof body.email !== 'string') return 'email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) return 'Invalid email';
+  if (!body.agreedAt || typeof body.agreedAt !== 'string') return 'agreedAt is required';
+  if (Number.isNaN(Date.parse(body.agreedAt))) return 'agreedAt must be an ISO 8601 timestamp';
   return null;
 }
 
@@ -441,6 +460,54 @@ app.post('/api/quote/step7', async (req, res) => {
   } catch (e) {
     console.error('[Step7]', e.message);
     res.status(500).json({ isSuccess: false, message: 'Payment processing failed' });
+  }
+});
+
+// --- T&C Consent Audit Endpoint ---
+// Records that a user agreed to a specific version of the Terms & Conditions.
+// Logs structured audit events to stdout (visible in dev console / Vercel logs).
+// No BMI call. Failures are non-blocking from the client side.
+app.post('/api/consent', async (req, res) => {
+  try {
+    const err = validateConsent(req.body);
+    if (err) return res.status(400).json({ isSuccess: false, message: err });
+
+    const { randomUUID } = await import('node:crypto');
+    const record = {
+      consentId: randomUUID(),
+      termsVersion: String(req.body.termsVersion).slice(0, 32),
+      referenceId: String(req.body.referenceId).slice(0, 64),
+      email: String(req.body.email).slice(0, 200),
+      name: String(req.body.name || '').slice(0, 200),
+      phone: String(req.body.phone || '').slice(0, 30),
+      agreedAt: String(req.body.agreedAt).slice(0, 40),
+      serverTimestamp: new Date().toISOString(),
+      ip: String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress || '',
+      userAgent: String(req.headers['user-agent'] || '').slice(0, 500),
+    };
+
+    console.log('[Consent]', JSON.stringify(record));
+
+    if (supabase) {
+      const { error } = await supabase.from('consent_records').insert({
+        consent_id: record.consentId,
+        terms_version: record.termsVersion,
+        reference_id: record.referenceId,
+        email: record.email,
+        name: record.name,
+        phone: record.phone,
+        agreed_at: record.agreedAt,
+        server_timestamp: record.serverTimestamp,
+        ip: record.ip,
+        user_agent: record.userAgent,
+      });
+      if (error) console.error('[Consent] Supabase insert failed:', error.message);
+    }
+
+    res.json({ isSuccess: true, consentId: record.consentId });
+  } catch (e) {
+    console.error('[Consent]', e.message);
+    res.status(500).json({ isSuccess: false, message: 'Failed to record consent' });
   }
 });
 

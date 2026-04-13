@@ -33,3 +33,14 @@ export function validateStep7(body) {
   if (!Array.isArray(travelers) || travelers.length === 0) return 'Traveler details are required';
   return null;
 }
+
+export function validateConsent(body) {
+  if (!body || typeof body !== 'object') return 'Request body is required';
+  if (!body.termsVersion || typeof body.termsVersion !== 'string') return 'termsVersion is required';
+  if (!body.referenceId || typeof body.referenceId !== 'string') return 'referenceId is required';
+  if (!body.email || typeof body.email !== 'string') return 'email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) return 'Invalid email';
+  if (!body.agreedAt || typeof body.agreedAt !== 'string') return 'agreedAt is required';
+  if (Number.isNaN(Date.parse(body.agreedAt))) return 'agreedAt must be an ISO 8601 timestamp';
+  return null;
+}
