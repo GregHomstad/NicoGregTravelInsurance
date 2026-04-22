@@ -113,103 +113,117 @@
   <main id="main" class="pt-16 md:pt-20">
 
     <!-- ===== PERSONA SELECTOR ===== -->
-    <section class="bg-white border-b border-gray-100 py-3 md:py-4">
+    <section class="bg-white border-b border-gray-100 py-2">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
-          <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mr-2">Who is travelling?</p>
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Who is travelling?</p>
+        <div class="flex flex-nowrap items-center justify-center gap-2">
           <!-- Self Persona -->
           <button type="button" onclick="setHeroPath('self')" id="persona-card-self"
-            class="persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-primary bg-primary text-white font-semibold text-xs md:text-sm shadow-sm transition-all cursor-pointer hover:shadow-md">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            class="persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-primary bg-primary text-white font-semibold text-xs shadow-sm transition-all cursor-pointer hover:shadow-md whitespace-nowrap">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             <span>I'm traveling</span>
-            <svg id="persona-check-self" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            <svg id="persona-check-self" class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
           </button>
 
           <!-- Family Persona -->
           <button type="button" onclick="setHeroPath('family')" id="persona-card-family"
-            class="persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-gray-200 bg-white text-gray-700 font-semibold text-xs md:text-sm shadow-sm transition-all cursor-pointer hover:shadow-md hover:border-gray-300">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            class="persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-gray-200 bg-white text-gray-700 font-semibold text-xs shadow-sm transition-all cursor-pointer hover:shadow-md hover:border-gray-300 whitespace-nowrap">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span>My family is traveling</span>
-            <svg id="persona-check-family" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            <svg id="persona-check-family" class="w-3 h-3 shrink-0 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
           </button>
         </div>
       </div>
     </section>
 
     <!-- ===== HERO — TWO COLUMN ===== -->
-    <section class="relative bg-gradient-to-br from-blue-50 to-white py-6 md:py-8 lg:py-10 hero-fills-viewport">
+    <section class="relative bg-gradient-to-br from-blue-50 to-white py-6 md:py-8 lg:py-10 hero-fills-viewport hero-section-pad">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           <!-- LEFT — Hero Copy -->
           <div>
             <!-- Self hero image -->
-            <div class="path-self mb-3">
-              <img src="/images/persona-self.jpg" alt="Indian traveler exploring the US" class="w-full h-48 md:h-56 lg:h-72 object-cover hero-img-self rounded-2xl shadow-lg">
+            <div class="path-self hero-image-container mb-2 lg:mb-3">
+              <img src="/images/persona-self.jpg" alt="Indian traveler exploring the US" class="w-full h-32 md:h-40 lg:h-72 object-cover hero-img-self rounded-2xl shadow-lg">
             </div>
             <!-- Family hero image -->
-            <div class="path-family mb-3">
-              <img src="/images/hero.jpg" alt="Indian couple visiting Golden Gate Bridge in San Francisco" class="w-full h-48 md:h-56 lg:h-72 object-cover hero-img-family rounded-2xl shadow-lg">
+            <div class="path-family hero-image-container mb-2 lg:mb-3">
+              <img src="/images/hero.jpg" alt="Indian couple visiting Golden Gate Bridge in San Francisco" class="w-full h-32 md:h-40 lg:h-72 object-cover hero-img-family rounded-2xl shadow-lg">
             </div>
 
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-heading leading-tight mb-3">
+            <h1 class="text-2xl md:text-3xl lg:text-5xl font-bold text-heading leading-tight mb-2 lg:mb-3">
               <span class="path-self-inline">A single US hospital visit can wipe out your savings.</span>
               <span class="path-family-inline">A single US hospital visit can wipe out your family's savings.</span>
             </h1>
-            <p class="text-base md:text-lg text-primary font-semibold mb-2">With TripKavach, you're protected when it matters most.</p>
-            <p class="text-base md:text-lg text-gray-600 mb-1 max-w-2xl">
+            <p class="text-sm md:text-base lg:text-lg text-primary font-semibold mb-1 lg:mb-2">With TripKavach, you're protected when it matters most.</p>
+            <p class="text-sm md:text-base lg:text-lg text-gray-600 mb-1 max-w-2xl">
               Emergency travel coverage for Indians traveling to America. Direct hospital payment, zero deductibles. From <strong>$4.35/day</strong>.
             </p>
-            <p class="text-xs text-gray-400 mb-4">Coverage for travel emergencies, not a substitute for health insurance. Subject to plan terms.</p>
+            <p class="hero-fine-print text-[10px] md:text-xs text-gray-400 mb-2 lg:mb-4">Coverage for travel emergencies, not a substitute for health insurance. Subject to plan terms.</p>
+
+            <!-- MOBILE-ONLY CTA: opens the quote form as a modal -->
+            <button type="button" onclick="openHeroQuoteModal()" class="hero-mobile-cta w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors text-base mb-3 shadow">
+              Get my quote &rarr;
+            </button>
 
             <!-- SOCIAL PROOF STRIP -->
-            <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 md:p-4 flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-2 text-sm mb-3">
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-2 md:p-3 lg:p-4 flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-1 text-xs md:text-sm mb-2 lg:mb-3">
               <span><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong class="text-primary">4.7/5</strong> from 2,400+ travelers</span>
               <span><strong class="text-primary">$12M+</strong> in claims paid</span>
               <span><strong class="text-primary">18,000+</strong> Indian families covered</span>
             </div>
 
             <!-- TRUST BAR -->
-            <div class="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-1 text-xs md:text-sm text-gray-500">
+            <div class="flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-1 text-[10px] md:text-xs lg:text-sm text-gray-500">
               <span><strong class="text-heading">AM Best A- Excellent</strong> rated</span>
               <span>Backed by <strong class="text-heading">BMI Financial Group</strong> &middot; 50+ years</span>
               <span>Coverage up to <strong class="text-heading">age 84</strong></span>
             </div>
           </div>
 
-          <!-- RIGHT — Mini Quote Engine -->
-          <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 md:p-8 w-full max-w-md mx-auto lg:mx-0">
-            <h2 class="text-xl font-bold text-heading mb-1">Get your free quote</h2>
-            <p class="text-sm text-gray-400 mb-5">Takes about 3 minutes &middot; No obligation</p>
-
-            <form id="hero-quote-form" onsubmit="return submitHeroQuote(event)">
-
-              <!-- Departure Date -->
-              <div class="mb-4">
-                <label for="hero-departure" class="block text-sm font-medium text-gray-700 mb-1">Departure date</label>
-                <input type="date" id="hero-departure" name="departure" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-              </div>
-
-              <!-- Return Date -->
-              <div class="mb-4">
-                <label for="hero-return" class="block text-sm font-medium text-gray-700 mb-1">Return date</label>
-                <input type="date" id="hero-return" name="return" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-              </div>
-
-              <!-- Primary Traveler Age -->
-              <div class="mb-5">
-                <label for="hero-age" class="block text-sm font-medium text-gray-700 mb-1">Primary traveler age</label>
-                <input type="number" id="hero-age" name="age" min="0" max="84" placeholder="e.g. 65" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-              </div>
-
-              <!-- CTA -->
-              <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-base">
-                Get My Quote &rarr;
+          <!-- RIGHT — Mini Quote Engine
+               Inline column on desktop. On mobile (max-lg), this becomes
+               a fixed-position modal triggered by the .hero-mobile-cta button.
+               Closes on X click or backdrop tap. -->
+          <div id="hero-quote-modal" class="hero-quote-modal-target" onclick="if(event.target===this)closeHeroQuoteModal()">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 md:p-8 w-full max-w-md mx-auto lg:mx-0 hero-quote-card-inner relative">
+              <!-- Mobile-only X close button -->
+              <button type="button" onclick="closeHeroQuoteModal()" aria-label="Close quote form" class="hero-modal-close-btn absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
-            </form>
+              <h2 class="text-xl font-bold text-heading mb-1">Get your free quote</h2>
+              <p class="text-sm text-gray-400 mb-5">Takes about 3 minutes &middot; No obligation</p>
 
-            <!-- De-riskers -->
-            <p class="text-xs text-gray-400 text-center mt-4">No credit card required &middot; Instant quote &middot; Free cancellation before departure</p>
+              <form id="hero-quote-form" onsubmit="return submitHeroQuote(event)">
+
+                <!-- Departure Date -->
+                <div class="mb-4">
+                  <label for="hero-departure" class="block text-sm font-medium text-gray-700 mb-1">Departure date</label>
+                  <input type="date" id="hero-departure" name="departure" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Return Date -->
+                <div class="mb-4">
+                  <label for="hero-return" class="block text-sm font-medium text-gray-700 mb-1">Return date</label>
+                  <input type="date" id="hero-return" name="return" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Primary Traveler Age -->
+                <div class="mb-5">
+                  <label for="hero-age" class="block text-sm font-medium text-gray-700 mb-1">Primary traveler age</label>
+                  <input type="number" id="hero-age" name="age" min="0" max="84" placeholder="e.g. 65" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- CTA -->
+                <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-base">
+                  Get My Quote &rarr;
+                </button>
+              </form>
+
+              <!-- De-riskers -->
+              <p class="text-xs text-gray-400 text-center mt-4">No credit card required &middot; Instant quote &middot; Free cancellation before departure</p>
+            </div>
           </div>
 
         </div>
@@ -691,8 +705,8 @@
       var selfCheck = document.getElementById('persona-check-self');
       var familyCheck = document.getElementById('persona-check-family');
 
-      var selectedClass = 'persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-primary bg-primary text-white font-semibold text-xs md:text-sm shadow-sm transition-all cursor-pointer hover:shadow-md';
-      var unselectedClass = 'persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-gray-200 bg-white text-gray-700 font-semibold text-xs md:text-sm shadow-sm transition-all cursor-pointer hover:shadow-md hover:border-gray-300';
+      var selectedClass = 'persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-primary bg-primary text-white font-semibold text-xs shadow-sm transition-all cursor-pointer hover:shadow-md whitespace-nowrap';
+      var unselectedClass = 'persona-card inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-gray-200 bg-white text-gray-700 font-semibold text-xs shadow-sm transition-all cursor-pointer hover:shadow-md hover:border-gray-300 whitespace-nowrap';
 
       if (path === 'self') {
         if (selfCard) { selfCard.className = selectedClass; }
@@ -709,6 +723,21 @@
       // Toggle body class for path-specific content (without scrolling)
       if (window.tripkavachPath) {
         window.tripkavachPath.set(path);
+      }
+    }
+
+    function openHeroQuoteModal() {
+      var modal = document.getElementById('hero-quote-modal');
+      if (modal) {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeHeroQuoteModal() {
+      var modal = document.getElementById('hero-quote-modal');
+      if (modal) {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
       }
     }
 
