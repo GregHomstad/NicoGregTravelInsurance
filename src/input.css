@@ -160,15 +160,26 @@ div[class*=" VIpgJd-"] {
   margin: 0 !important;
 }
 
-/* Hero fills the viewport below the fixed header (80px) + persona bar
-   (~70px) on desktop. Content vertically centered within that space. */
+/* Hero fills the viewport on every breakpoint. Header + persona bar
+   are subtracted so the hero stretches to use the remaining space.
+   Below lg, header is ~64px and persona bar is ~64px (with the slim
+   layout). At lg+, header is 80px and persona bar is ~64px. Using
+   dvh on supporting browsers (iOS Safari, Chrome Android) so the
+   measurement adapts when the URL bar collapses. */
+.hero-fills-viewport {
+  min-height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+}
+.hero-fills-viewport > * { width: 100%; }
 @media (min-width: 1024px) {
-  .hero-fills-viewport {
-    min-height: calc(100vh - 160px);
-    display: flex;
-    align-items: center;
+  .hero-fills-viewport { min-height: calc(100vh - 160px); }
+}
+@supports (height: 100dvh) {
+  .hero-fills-viewport { min-height: calc(100dvh - 130px); }
+  @media (min-width: 1024px) {
+    .hero-fills-viewport { min-height: calc(100dvh - 160px); }
   }
-  .hero-fills-viewport > * { width: 100%; }
 }
 
 /* Hero image positioning — keep the subject (selfie + phone for self,
@@ -176,7 +187,7 @@ div[class*=" VIpgJd-"] {
    a short, wide rectangle. Lower percentage = bias toward TOP of image
    (so the head and phone in the selfie stay visible). */
 .hero-img-self { object-position: center 45%; }
-.hero-img-family { object-position: center 50%; }
+.hero-img-family { object-position: center 35%; }
 
 /* Mobile (max-lg): the inline quote form is hidden by default and
    shown as a fullscreen modal when the .hero-mobile-cta button is
@@ -220,10 +231,12 @@ div[class*=" VIpgJd-"] {
   .persona-card { min-height: 44px; }
 }
 
-/* Tighter hero on short / narrow phones (iPhone SE 2/3, smaller Androids).
-   Shrinks the hero image and removes the legal fine print so the trust bar
-   stays above the fold. */
-@media (max-width: 1023px) and (max-height: 700px), (max-width: 380px) {
+/* On short phones (<700px tall, e.g. iPhone SE 2/3), keep the image
+   compact and drop the fine print so the trust bar stays above the fold.
+   On taller phones (iPhone 12+, Plus, Pro Max) and tablets, the hero
+   stretches to fill viewport via .hero-fills-viewport, so we can let
+   the image breathe more. */
+@media (max-width: 1023px) and (max-height: 700px) {
   .hero-image-container img { height: 7rem !important; } /* h-28 = 112px */
   .hero-fine-print { display: none; }
   .hero-section-pad { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
