@@ -160,62 +160,13 @@ div[class*=" VIpgJd-"] {
   margin: 0 !important;
 }
 
-/* Hero fills the viewport on every breakpoint. Content is anchored to
-   the TOP of the section (right below the persona bar) so there's no
-   awkward empty space above the headline on tall viewports. The min-
-   height + flex layout ensures the section still extends to the bottom
-   of the viewport so the next section doesn't bleed in.
-   Using dvh on supporting browsers (iOS Safari, Chrome Android) so
-   the measurement adapts when the URL bar collapses. */
-.hero-fills-viewport {
-  min-height: calc(100vh - 130px);
-  display: flex;
-  align-items: flex-start;
-}
-.hero-fills-viewport > * { width: 100%; }
-@media (min-width: 1024px) {
-  .hero-fills-viewport { min-height: calc(100vh - 160px); }
-}
-@supports (height: 100dvh) {
-  .hero-fills-viewport { min-height: calc(100dvh - 130px); }
-  @media (min-width: 1024px) {
-    .hero-fills-viewport { min-height: calc(100dvh - 160px); }
-  }
-}
-
-/* Hero image positioning — keep the subject (selfie + phone for self,
-   couple on bridge for family) in frame when the photo is cropped to
-   a short, wide rectangle. Lower percentage = bias toward TOP of image
-   (so the head and phone in the selfie stay visible). */
+/* Hero image positioning — keep the subject in frame when cropped to
+   a short, wide rectangle on mobile (where we use object-cover with a
+   fixed height). On desktop the image renders at its natural aspect
+   ratio so object-position has no effect there.
+   Lower percentage = bias toward TOP of image. */
 .hero-img-self { object-position: center 45%; }
 .hero-img-family { object-position: center 35%; }
-
-/* Mobile (max-lg): the inline quote form is hidden by default and
-   shown as a fullscreen modal when the .hero-mobile-cta button is
-   tapped. Backdrop click or X button closes it. Desktop unchanged. */
-@media (max-width: 1023px) {
-  .hero-quote-modal-target {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    background: rgba(0, 0, 0, 0.55);
-    overflow-y: auto;
-    padding: 1rem;
-    -webkit-overflow-scrolling: touch;
-  }
-  .hero-quote-modal-target.is-open {
-    display: block;
-  }
-  .hero-quote-modal-target > .hero-quote-card-inner {
-    margin: 3rem auto 1rem;
-    max-width: 26rem;
-  }
-}
-@media (min-width: 1024px) {
-  .hero-modal-close-btn,
-  .hero-mobile-cta { display: none !important; }
-}
 
 /* ===== Mobile responsive tuning ============================================
    Goal: fit the hero (top of "Who is travelling?" through the "Coverage up
@@ -232,26 +183,6 @@ div[class*=" VIpgJd-"] {
   .persona-card { min-height: 44px; }
 }
 
-/* On short phones (<700px tall, e.g. iPhone SE 2/3), keep the image
-   compact and drop the fine print so the trust bar stays above the fold.
-   On taller phones (iPhone 12+, Plus, Pro Max) and tablets, the hero
-   stretches to fill viewport via .hero-fills-viewport, so we can let
-   the image breathe more. */
-@media (max-width: 1023px) and (max-height: 700px) {
-  .hero-image-container img { height: 7rem !important; } /* h-28 = 112px */
-  .hero-fine-print { display: none; }
-  .hero-section-pad { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
-}
-
-/* Use dynamic viewport height on browsers that support it (iOS Safari,
-   Chrome Android). dvh accounts for collapsing browser chrome so the
-   hero "fits" measurement is based on the actual visible viewport, not
-   the largest possible viewport. */
-@supports (height: 100dvh) {
-  @media (min-width: 1024px) {
-    .hero-fills-viewport { min-height: calc(100dvh - 160px); }
-  }
-}
 
 /* Wizard step transitions */
 .wizard-step {

@@ -136,94 +136,47 @@
       </div>
     </section>
 
-    <!-- ===== HERO — TWO COLUMN ===== -->
-    <section class="relative bg-gradient-to-br from-blue-50 to-white py-6 md:py-8 lg:py-10 hero-fills-viewport hero-section-pad">
+    <!-- ===== HERO — matches plan-page pattern, enlarged to fill the fold ===== -->
+    <section class="bg-gradient-to-br from-blue-50 to-white py-12 md:py-20 lg:py-32 xl:py-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
-          <!-- LEFT — Hero Copy -->
+          <!-- LEFT — Headline, copy, CTAs, trust signals -->
           <div>
-            <!-- Self hero image -->
-            <div class="path-self hero-image-container mb-3">
-              <img src="/images/persona-self.jpg" alt="Indian traveler exploring the US" class="w-full h-44 sm:h-52 md:h-56 lg:h-72 object-cover hero-img-self rounded-2xl shadow-lg">
-            </div>
-            <!-- Family hero image -->
-            <div class="path-family hero-image-container mb-3">
-              <img src="/images/hero.jpg" alt="Indian couple visiting Golden Gate Bridge in San Francisco" class="w-full h-44 sm:h-52 md:h-56 lg:h-72 object-cover hero-img-family rounded-2xl shadow-lg">
-            </div>
-
-            <h1 class="text-2xl md:text-3xl lg:text-5xl font-bold text-heading leading-tight mb-2 lg:mb-3">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-[3.75rem] font-bold text-heading leading-tight mb-6">
               <span class="path-self-inline">A single US hospital visit can wipe out your savings.</span>
               <span class="path-family-inline">A single US hospital visit can wipe out your family's savings.</span>
             </h1>
-            <p class="text-sm md:text-base lg:text-lg text-primary font-semibold mb-1 lg:mb-2">With TripKavach, you're protected when it matters most.</p>
-            <p class="text-sm md:text-base lg:text-lg text-gray-600 mb-1 max-w-2xl">
+            <p class="text-xl lg:text-2xl text-primary font-semibold mb-4">With TripKavach, you're protected when it matters most.</p>
+            <p class="text-lg lg:text-xl text-gray-600 mb-8 path-self leading-relaxed">
               Emergency travel coverage for Indians traveling to America. Direct hospital payment, zero deductibles. From <strong>$4.35/day</strong>.
             </p>
-            <p class="hero-fine-print text-[10px] md:text-xs text-gray-400 mb-2 lg:mb-4">Coverage for travel emergencies, not a substitute for health insurance. Subject to plan terms.</p>
+            <p class="text-lg lg:text-xl text-gray-600 mb-8 path-family leading-relaxed">
+              Emergency travel coverage for your parents and family visiting the US. Direct hospital payment, zero deductibles. From <strong>$4.35/day</strong>.
+            </p>
 
-            <!-- MOBILE-ONLY CTA: opens the quote form as a modal -->
-            <button type="button" onclick="openHeroQuoteModal()" class="hero-mobile-cta w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-lg transition-colors text-base mb-3 shadow">
-              Get my quote &rarr;
-            </button>
-
-            <!-- SOCIAL PROOF STRIP -->
-            <div class="bg-blue-50 border border-blue-100 rounded-xl p-2 md:p-3 lg:p-4 flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-1 text-xs md:text-sm mb-2 lg:mb-3">
-              <span><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong class="text-primary">4.7/5</strong> from 2,400+ travelers</span>
-              <span><strong class="text-primary">$12M+</strong> in claims paid</span>
-              <span><strong class="text-primary">18,000+</strong> Indian families covered</span>
+            <!-- CTAs (matches plan-page style, enlarged) -->
+            <div class="flex flex-wrap gap-4 mb-8">
+              <a href="quote.html" class="bg-primary hover:bg-primary-hover text-white font-semibold py-4 px-10 rounded-lg transition-colors text-lg">Get a Quote</a>
+              <a href="plans/compare.html" class="border-2 border-primary text-primary font-semibold py-4 px-10 rounded-lg hover:bg-primary hover:text-white transition-colors text-lg">Compare Coverage Tiers</a>
             </div>
 
-            <!-- TRUST BAR -->
-            <div class="flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-1 text-[10px] md:text-xs lg:text-sm text-gray-500">
-              <span><strong class="text-heading">AM Best A- Excellent</strong> rated</span>
-              <span>Backed by <strong class="text-heading">BMI Financial Group</strong> &middot; 50+ years</span>
+            <!-- Compact trust signals -->
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-base text-gray-500">
+              <span><span class="stars text-amber-400">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <strong class="text-primary">4.7/5</strong> from 2,400+ travelers</span>
+              <span><strong class="text-heading">AM Best A-</strong> Excellent</span>
+              <span>Backed by <strong class="text-heading">BMI</strong> &middot; 50+ years</span>
               <span>Coverage up to <strong class="text-heading">age 84</strong></span>
             </div>
+            <p class="text-sm text-gray-400 mt-4">Coverage for travel emergencies, not a substitute for health insurance. Subject to plan terms.</p>
           </div>
 
-          <!-- RIGHT — Mini Quote Engine
-               Inline column on desktop. On mobile (max-lg), this becomes
-               a fixed-position modal triggered by the .hero-mobile-cta button.
-               Closes on X click or backdrop tap. -->
-          <div id="hero-quote-modal" class="hero-quote-modal-target" onclick="if(event.target===this)closeHeroQuoteModal()">
-            <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 md:p-8 w-full max-w-md mx-auto lg:mx-0 hero-quote-card-inner relative">
-              <!-- Mobile-only X close button -->
-              <button type="button" onclick="closeHeroQuoteModal()" aria-label="Close quote form" class="hero-modal-close-btn absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
-                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-              <h2 class="text-xl font-bold text-heading mb-1">Get your free quote</h2>
-              <p class="text-sm text-gray-400 mb-5">Takes about 3 minutes &middot; No obligation</p>
-
-              <form id="hero-quote-form" onsubmit="return submitHeroQuote(event)">
-
-                <!-- Departure Date -->
-                <div class="mb-4">
-                  <label for="hero-departure" class="block text-sm font-medium text-gray-700 mb-1">Departure date</label>
-                  <input type="date" id="hero-departure" name="departure" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                </div>
-
-                <!-- Return Date -->
-                <div class="mb-4">
-                  <label for="hero-return" class="block text-sm font-medium text-gray-700 mb-1">Return date</label>
-                  <input type="date" id="hero-return" name="return" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                </div>
-
-                <!-- Primary Traveler Age -->
-                <div class="mb-5">
-                  <label for="hero-age" class="block text-sm font-medium text-gray-700 mb-1">Primary traveler age</label>
-                  <input type="number" id="hero-age" name="age" min="0" max="84" placeholder="e.g. 65" required class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                </div>
-
-                <!-- CTA -->
-                <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-base">
-                  Get My Quote &rarr;
-                </button>
-              </form>
-
-              <!-- De-riskers -->
-              <p class="text-xs text-gray-400 text-center mt-4">No credit card required &middot; Instant quote &middot; Free cancellation before departure</p>
-            </div>
+          <!-- RIGHT — Hero image (mobile: above text via order-first / lg:order-last) -->
+          <div class="order-first lg:order-last">
+            <img src="/images/persona-self.jpg" alt="Indian traveler exploring the US"
+              class="path-self rounded-2xl shadow-lg w-full hero-img-self h-56 sm:h-64 md:h-72 lg:h-auto object-cover">
+            <img src="/images/hero.jpg" alt="Indian couple visiting Golden Gate Bridge in San Francisco"
+              class="path-family rounded-2xl shadow-lg w-full hero-img-family h-56 sm:h-64 md:h-72 lg:h-auto object-cover">
           </div>
 
         </div>
@@ -673,7 +626,6 @@
           <ul class="space-y-2 text-sm">
             <li><a href="terms.html" class="hover:text-white transition-colors">Terms &amp; Conditions</a></li>
             <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="conditions.html" class="hover:text-white transition-colors">Conditions of Coverage</a></li>
           </ul>
           <p class="text-xs text-gray-500 mt-4">TripKavach plans are travel assistance products powered by BMI Travel Assist, subsidiary of BMI Financial Group (Best Meridian International Insurance Company I.I).</p>
         </div>
@@ -726,57 +678,11 @@
       }
     }
 
-    function openHeroQuoteModal() {
-      var modal = document.getElementById('hero-quote-modal');
-      if (modal) {
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    function closeHeroQuoteModal() {
-      var modal = document.getElementById('hero-quote-modal');
-      if (modal) {
-        modal.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-    }
-
-    function submitHeroQuote(e) {
-      e.preventDefault();
-      var departure = document.getElementById('hero-departure').value;
-      var returnDate = document.getElementById('hero-return').value;
-      var age = document.getElementById('hero-age').value;
-      var params = new URLSearchParams();
-      if (departure) params.set('departure', departure);
-      if (returnDate) params.set('return', returnDate);
-      if (age) params.set('age', age);
-      window.location.href = 'quote.html' + (params.toString() ? '?' + params.toString() : '');
-      return false;
-    }
-
     // Sync persona cards with stored path on load
     (function() {
       var stored = localStorage.getItem('tripkavach_path');
       if (stored === 'family') {
         setHeroPath('family');
-      }
-    })();
-
-    // Set min date to today for departure
-    (function() {
-      var today = new Date().toISOString().split('T')[0];
-      var depInput = document.getElementById('hero-departure');
-      var retInput = document.getElementById('hero-return');
-      if (depInput) depInput.min = today;
-      if (retInput) retInput.min = today;
-      // When departure changes, update return min
-      if (depInput) {
-        depInput.addEventListener('change', function() {
-          if (retInput) retInput.min = depInput.value;
-          if (retInput && retInput.value && retInput.value < depInput.value) {
-            retInput.value = '';
-          }
-        });
       }
     })();
   </script>
