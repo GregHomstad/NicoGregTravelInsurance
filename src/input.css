@@ -160,14 +160,9 @@ div[class*=" VIpgJd-"] {
   margin: 0 !important;
 }
 
-/* Hero image: show on mobile/tablet only. On desktop (lg+), the hero uses
-   a two-column layout with the quote form on the right, so the image is
-   hidden to keep the hero within one viewport. */
+/* Hero fills the viewport below the fixed header (80px) + persona bar
+   (~70px) on desktop. Content vertically centered within that space. */
 @media (min-width: 1024px) {
-  .hero-image-mobile-only { display: none !important; }
-  /* Hero fills the viewport below the fixed header (80px) + persona bar
-     (~70px). Content is vertically centered within that space so the hero
-     feels balanced even when the quote form is the tallest element. */
   .hero-fills-viewport {
     min-height: calc(100vh - 160px);
     display: flex;
@@ -175,6 +170,11 @@ div[class*=" VIpgJd-"] {
   }
   .hero-fills-viewport > * { width: 100%; }
 }
+
+/* Hero image positioning — keep the subject (selfie + phone, family on
+   bridge) in frame when the photo is cropped to a short, wide rectangle. */
+.hero-img-self { object-position: center 60%; }
+.hero-img-family { object-position: center 45%; }
 
 /* Wizard step transitions */
 .wizard-step {
