@@ -129,12 +129,16 @@ body { top: 0 !important; }
 
 /* Hide Google Translate's "rate this translation" hover popup
    (the floating bubble with thumbs up/down that can render as a
-   full-screen overlay on some browsers/languages). */
+   full-screen overlay on some browsers/languages). Covers the legacy
+   class names (.goog-tooltip etc.) AND the newer minified class names
+   Google uses (VIpgJd-*, which are injected as a big blank footer div). */
 .goog-tooltip,
 .goog-tooltip:hover,
 .goog-te-balloon-frame,
 #goog-gt-tt,
-.goog-text-highlight {
+.goog-text-highlight,
+div[class^="VIpgJd-"],
+div[class*=" VIpgJd-"] {
   display: none !important;
   visibility: hidden !important;
   background-color: transparent !important;
