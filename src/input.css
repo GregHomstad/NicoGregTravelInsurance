@@ -160,27 +160,27 @@ div[class*=" VIpgJd-"] {
   margin: 0 !important;
 }
 
-/* Hero fills the viewport on every breakpoint. Content is anchored to
-   the TOP of the section (right below the persona bar) so there's no
-   awkward empty space above the headline on tall viewports. The min-
-   height + flex layout ensures the section still extends to the bottom
-   of the viewport so the next section doesn't bleed in.
-   Using dvh on supporting browsers (iOS Safari, Chrome Android) so
-   the measurement adapts when the URL bar collapses. */
+/* Hero sizing: lets natural content height drive the section. On mobile
+   we keep a min-height so short content doesn't leave an obvious gap
+   above the next section, but on desktop the form + image + copy are
+   tall enough on their own — adding min-height there just creates
+   awkward whitespace below the trust bar.
+   Using dvh on supporting browsers so mobile measurement adapts when
+   the URL bar collapses. */
 .hero-fills-viewport {
   min-height: calc(100vh - 130px);
   display: flex;
   align-items: flex-start;
 }
 .hero-fills-viewport > * { width: 100%; }
-@media (min-width: 1024px) {
-  .hero-fills-viewport { min-height: calc(100vh - 160px); }
-}
 @supports (height: 100dvh) {
   .hero-fills-viewport { min-height: calc(100dvh - 130px); }
-  @media (min-width: 1024px) {
-    .hero-fills-viewport { min-height: calc(100dvh - 160px); }
-  }
+}
+@media (min-width: 1024px) {
+  /* On desktop, drop the min-height so the section is exactly as tall
+     as its content. With the larger image/form below this fits within
+     a typical desktop viewport without leaving empty space at the bottom. */
+  .hero-fills-viewport { min-height: 0; align-items: stretch; }
 }
 
 /* Hero image positioning — keep the subject (selfie + phone for self,
