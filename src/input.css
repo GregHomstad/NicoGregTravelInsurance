@@ -160,16 +160,17 @@ div[class*=" VIpgJd-"] {
   margin: 0 !important;
 }
 
-/* Hero fills the viewport on every breakpoint. Header + persona bar
-   are subtracted so the hero stretches to use the remaining space.
-   Below lg, header is ~64px and persona bar is ~64px (with the slim
-   layout). At lg+, header is 80px and persona bar is ~64px. Using
-   dvh on supporting browsers (iOS Safari, Chrome Android) so the
-   measurement adapts when the URL bar collapses. */
+/* Hero fills the viewport on every breakpoint. Content is anchored to
+   the TOP of the section (right below the persona bar) so there's no
+   awkward empty space above the headline on tall viewports. The min-
+   height + flex layout ensures the section still extends to the bottom
+   of the viewport so the next section doesn't bleed in.
+   Using dvh on supporting browsers (iOS Safari, Chrome Android) so
+   the measurement adapts when the URL bar collapses. */
 .hero-fills-viewport {
   min-height: calc(100vh - 130px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 .hero-fills-viewport > * { width: 100%; }
 @media (min-width: 1024px) {
