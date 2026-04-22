@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-    <path fill="#1E3A8A" d="M50 5L10 20v30c0 25 40 45 40 45s40-20 40-45V20L50 5z"/>
-    <path fill="#3B82F6" d="M50 5v90c0 0 40-20 40-45V20L50 5z"/>
-    <!-- Abstract airplane / star motif in the center -->
-    <path fill="#ffffff" d="M50 30l15 40-15-10-15 10 15-40z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Shield - left/dark half -->
+  <path fill="#1e3a8a" d="M32 4 L6 12 v20 c0 16 26 28 26 28 V4 Z"/>
+  <!-- Shield - right/light half -->
+  <path fill="#3b82f6" d="M32 4 L58 12 v20 c0 16 -26 28 -26 28 V4 Z"/>
+  <!-- 5-point star (facets for subtle 3D) -->
+  <path fill="#1e3a8a" d="M32 18 L36 30 L48 30 L38 37 L42 49 L32 42 Z"/>
+  <path fill="#60a5fa" d="M32 18 L28 30 L16 30 L26 37 L22 49 L32 42 Z"/>
+  <!-- Airplane going up-right -->
+  <path fill="#1e3a8a" d="M40 10 l14 -6 l3 2 l-10 7 l3 4 l-2 2 l-4 -3 l-8 4 z"/>
 </svg>
