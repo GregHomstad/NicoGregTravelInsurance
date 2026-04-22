@@ -171,10 +171,12 @@ div[class*=" VIpgJd-"] {
   .hero-fills-viewport > * { width: 100%; }
 }
 
-/* Hero image positioning — keep the subject (selfie + phone, family on
-   bridge) in frame when the photo is cropped to a short, wide rectangle. */
-.hero-img-self { object-position: center 60%; }
-.hero-img-family { object-position: center 45%; }
+/* Hero image positioning — keep the subject (selfie + phone for self,
+   couple on bridge for family) in frame when the photo is cropped to
+   a short, wide rectangle. Lower percentage = bias toward TOP of image
+   (so the head and phone in the selfie stay visible). */
+.hero-img-self { object-position: center 45%; }
+.hero-img-family { object-position: center 50%; }
 
 /* Wizard step transitions */
 .wizard-step {
