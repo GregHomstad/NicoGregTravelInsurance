@@ -11,11 +11,9 @@ const TIER_TAGS = [
   'Our highest level of coverage',
 ];
 
-// Coverage tier names we sell (BMI API may return more — we filter to these 3)
-const SOLD_TIERS = ['ultra', 'vip', 'vip plus'];
-
-// Rename BMI's "Ultra" tier to "Ultra Plus" for display
-const TIER_RENAME = { 'Ultra': 'Ultra Plus', 'ultra': 'Ultra Plus' };
+// Coverage tier names we sell (BMI API returns Clásico/Ultra/Ultra Plus/VIP/VIP Plus —
+// we show only these three). Match is exact (lowercased + trimmed).
+const SOLD_TIERS = new Set(['ultra plus', 'vip', 'vip plus']);
 
 // T&C version identifier. Bump when terms.html changes.
 // Keep in sync with CURRENT_TERMS_VERSION in api/consent.js.
@@ -24,8 +22,6 @@ const TERMS_VERSION = '2026-04-10';
 // --- State ---
 const state = {
   currentStep: 1,
-  step2Phase: 'plans', // 'plans' | 'addons'
-  addonsLoadedForPlan: null,
   catalogs: {
     countries: [],
     destinations: [],
@@ -39,8 +35,6 @@ const state = {
   selectedCoverageIds: '',
   referenceId: '',
   headerId: null,
-  riders: [],
-  selectedBenefits: '',
   totalPremium: 0,
 };
 
@@ -55,9 +49,42 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindNavigation();
   populateExpiryYears();
   initCardFormatting();
+  showRecentVoucherBanner();
   stepEls[0]?.classList.add('active');
   await loadCatalogs();
 });
+
+// If the user issued a voucher recently, offer a one-click way back to the
+// confirmation screen so they can re-download their PDF. Handles the common
+// case of navigating away from the confirmation page and losing access.
+function showRecentVoucherBanner() {
+  const banner = $('voucher-recovery-banner');
+  if (!banner) return;
+  let store;
+  try { store = JSON.parse(localStorage.getItem(VOUCHER_CACHE_KEY) || '{}'); }
+  catch { return; }
+  const entries = Object.entries(store)
+    .filter(([, v]) => v?.details?.sVoucherCode)
+    .sort((a, b) => (b[1].savedAt || 0) - (a[1].savedAt || 0));
+  if (entries.length === 0) return;
+
+  const [referenceId, { details, savedAt }] = entries[0];
+  $('voucher-recovery-code').textContent = details.sVoucherCode;
+  $('voucher-recovery-date').textContent = savedAt
+    ? new Date(savedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+    : 'recently';
+  banner.classList.remove('hidden');
+
+  $('voucher-recovery-view').addEventListener('click', () => {
+    state.referenceId = referenceId;
+    renderConfirmation(details);
+    banner.classList.add('hidden');
+    goToStep(4);
+  });
+  $('voucher-recovery-dismiss').addEventListener('click', () => {
+    banner.classList.add('hidden');
+  });
+}
 
 // --- Fallback Catalog Data ---
 const FALLBACK_COUNTRIES = [
@@ -339,23 +366,17 @@ function collectTravelers() {
 function bindNavigation() {
   // Step 1
   $('step1-next').addEventListener('click', handleStep1);
-  // Step 2 — Plans phase
+  // Step 2 — Plans
   $('step2-back').addEventListener('click', () => goToStep(1));
   $('step2-next').addEventListener('click', handleStep2Continue);
-  // Step 2 — Add-ons phase
-  $('step2-addons-back').addEventListener('click', showPlansPhase);
-  $('step2-addons-next').addEventListener('click', handleAddonsFinalize);
   // Step 3 — Review & Payment
   $('edit-trip-btn').addEventListener('click', () => goToStep(1));
-  $('change-plan-btn').addEventListener('click', () => {
-    state.step2Phase = 'plans';
-    state.addonsLoadedForPlan = null;
-    goToStep(2);
-  });
+  $('change-plan-btn').addEventListener('click', () => goToStep(2));
   $('step3-back').addEventListener('click', () => goToStep(2));
   $('step3-submit').addEventListener('click', handlePayment);
   $('send-email-btn').addEventListener('click', handleSendEmail);
   $('print-quote-btn').addEventListener('click', () => window.print());
+  $('step2-print-btn').addEventListener('click', () => window.print());
   // Date validation on change/blur
   $('q-from-date').addEventListener('change', validateStartDate);
   $('q-from-date').addEventListener('blur', validateStartDate);
@@ -406,29 +427,10 @@ function goToStep(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   hideError();
 
-  if (n === 2) {
-    if (state.step2Phase === 'addons' && state.riders.length > 0) {
-      showAddonsPhase();
-    } else {
-      showPlansPhase();
-    }
-  }
   if (n === 3) {
     renderReview();
     preparePaymentStep();
   }
-}
-
-function showPlansPhase() {
-  state.step2Phase = 'plans';
-  $('step2-plans').classList.remove('hidden');
-  $('step2-addons').classList.add('hidden');
-}
-
-function showAddonsPhase() {
-  state.step2Phase = 'addons';
-  $('step2-plans').classList.add('hidden');
-  $('step2-addons').classList.remove('hidden');
 }
 
 // --- Step 1: Get Quotes ---
@@ -503,9 +505,6 @@ async function handleStep1() {
 
   // Reset downstream state
   state.selectedPlan = null;
-  state.step2Phase = 'plans';
-  state.addonsLoadedForPlan = null;
-  state.riders = [];
 
   showLoading('Calculating your premiums...');
   try {
@@ -514,6 +513,7 @@ async function handleStep1() {
 
     state.step1Response = res.data;
     state.referenceId = res.data.details?.[0]?.reference || '';
+    renderTripSummary();
     renderPlanCards(res.data.details || []);
     hideLoading();
     goToStep(2);
@@ -521,6 +521,32 @@ async function handleStep1() {
     hideLoading();
     showError(e.message, () => handleStep1());
   }
+}
+
+// Populates the trip summary strip at the top of Step 2 from state.quoteParams + catalogs.
+function renderTripSummary() {
+  const params = state.quoteParams;
+  if (!params) return;
+  const travelers = params.travelers || [];
+  const primary = travelers[0] || {};
+  const primaryName = [primary.firstName, primary.lastName].filter(Boolean).join(' ').trim();
+  const travelersText = travelers.length > 1
+    ? `${primaryName || 'Traveler 1'} +${travelers.length - 1}`
+    : (primaryName || '1 traveler');
+
+  const destination = state.catalogs?.destinations?.find(d => Number(d.nDestination) === Number(params.nDestination));
+  const destinationName = destination?.destinationName || '—';
+
+  const days = tripDays(params.dFromDate, params.dToDate);
+
+  const travelersEl = $('trip-summary-travelers');
+  if (travelersEl) travelersEl.textContent = travelersText;
+  const destEl = $('trip-summary-destination');
+  if (destEl) destEl.textContent = destinationName;
+  const datesEl = $('trip-summary-dates');
+  if (datesEl) datesEl.textContent = `${formatDate(params.dFromDate)} – ${formatDate(params.dToDate)}`;
+  const durationEl = $('trip-summary-duration');
+  if (durationEl) durationEl.textContent = days === 1 ? '1 day' : `${days} days`;
 }
 
 // --- Plan Cards ---
@@ -546,15 +572,23 @@ function renderPlanCards(plans) {
 
   const allPlans = Object.values(planGroups).sort((a, b) => a.planSeq - b.planSeq);
 
-  // Only show Daily and Long-term plan types (filter out Annual, Student, Corporate, Family, etc.)
-  const ALLOWED_PLAN_TYPES = ['short-term', 'long-term', 'diario', 'larga'];
-  const sortedPlans = allPlans.filter(p => {
+  // Pick the plan type based on trip length:
+  //   ≤ 90 days → "Daily Plan"            (short-term)
+  //   > 90 days → "Extended Stay Plan"    (long-term)
+  // Filter out everything else (MultiTrip Annual, Student, Price Travel, Corporate, Family, etc.)
+  const days = tripDays(state.quoteParams?.dFromDate, state.quoteParams?.dToDate);
+  const needle = days > 90 ? 'extended' : 'daily';
+  const matched = allPlans.filter(p => {
     const name = translateEsToEn(p.planName || '').toLowerCase();
-    return ALLOWED_PLAN_TYPES.some(t => name.includes(t));
+    // Exclude MultiTrip / Annual / Student / Price Travel explicitly so a stray match
+    // on "daily" inside e.g. "Daily MultiTrip" won't slip through.
+    if (/multitrip|annual|student|price\s*travel|anual|estudiante/.test(name)) return false;
+    return name.includes(needle);
   });
 
-  // Fallback: if filter produced nothing, show all (shouldn't happen with normal API)
-  const finalPlans = sortedPlans.length > 0 ? sortedPlans : allPlans;
+  // Fallback: if the preferred plan type isn't returned by BMI, show all so the
+  // user can still pick something rather than seeing an empty screen.
+  const finalPlans = matched.length > 0 ? matched : allPlans;
 
   if (finalPlans.length === 1) {
     renderCoverageTierCards(grid, finalPlans[0]);
@@ -597,10 +631,10 @@ function renderCoverageTierCards(container, plan) {
 
   const allTiers = plan.coverages.sort((a, b) => a.coverageSeq - b.coverageSeq);
 
-  // Filter to only the 3 tiers we sell (Ultra→Ultra Plus, VIP, VIP Plus)
+  // Filter to only the 3 tiers we sell (Ultra Plus, VIP, VIP Plus)
   const tiers = allTiers.filter(t => {
     const name = translateEsToEn(t.coverageName || '').toLowerCase().trim();
-    return SOLD_TIERS.some(sold => name === sold || name.includes(sold));
+    return SOLD_TIERS.has(name);
   });
 
   // Fallback: if filter produced nothing (unexpected API shape), show all
@@ -613,9 +647,7 @@ function renderCoverageTierCards(container, plan) {
     const perDay = days > 0 ? (parseFloat(tier.tPrice) / days).toFixed(2) : '\u2014';
     const tagline = TIER_TAGS[Math.min(i, TIER_TAGS.length - 1)];
 
-    // Rename Ultra → Ultra Plus for display
-    let displayName = translateEsToEn(tier.coverageName);
-    if (TIER_RENAME[displayName]) displayName = TIER_RENAME[displayName];
+    const displayName = translateEsToEn(tier.coverageName);
 
     card.className = `bg-white rounded-2xl border-2 border-gray-200 p-5 cursor-pointer hover:border-primary hover:shadow-lg transition-all relative plan-card ${isPopular ? 'shadow-md' : ''}`;
     card.dataset.planId = plan.planId;
@@ -644,12 +676,6 @@ function renderCoverageTierCards(container, plan) {
       indicator.innerHTML = '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
       card.appendChild(indicator);
 
-      // Track whether add-ons need reloading
-      const newKey = `${plan.planId}-${tier.coverageSeq}`;
-      if (state.addonsLoadedForPlan !== newKey) {
-        state.addonsLoadedForPlan = null;
-      }
-
       state.selectedPlan = {
         planName: plan.planName,
         planId: plan.planId,
@@ -667,156 +693,39 @@ function renderCoverageTierCards(container, plan) {
   });
 }
 
-// --- Step 2 Continue: Load riders (API Step 2 + Step 4) ---
+// --- Step 2 Continue: confirm selection (BMI Step 2) + finalize quote (BMI Step 5), then go to payment ---
 async function handleStep2Continue() {
   if (!state.selectedPlan) { showError('Please select a coverage tier.'); return; }
 
   const coverageId = String(state.selectedPlan.coverages[0].coverageSeq);
   state.selectedCoverageIds = coverageId;
 
-  showLoading('Loading coverage options...');
+  showLoading('Preparing your quote...');
   try {
-    // Confirm selection (API Step 2)
     const step2Body = {
       ...state.quoteParams,
       sReferenceID: state.referenceId,
-      sCoverageID: state.selectedCoverageIds,
+      sCoverageID: coverageId,
     };
     const step2Res = await apiFetch('/api/quote/step2', 'POST', step2Body);
     if (!step2Res.isSuccess && step2Res.code !== 0) throw new Error(step2Res.message || 'Failed to confirm selection');
-
-    // Get riders (API Step 4)
-    const step4Body = {
-      ...state.quoteParams,
-      sReferenceID: state.referenceId,
-      sPlanID: String(state.selectedPlan.planId),
-      nCoverage: parseInt(coverageId, 10),
-    };
-    const step4Res = await apiFetch('/api/quote/step4', 'POST', step4Body);
-    if (!step4Res.isSuccess) throw new Error(step4Res.message || 'Failed to load add-ons');
-
-    state.riders = step4Res.data?.details || [];
     state.headerId = step2Res.data?.details?.[0]?.headerId || state.headerId;
-    state.addonsLoadedForPlan = `${state.selectedPlan.planId}-${state.selectedPlan.coverages[0].coverageSeq}`;
 
-    hideLoading();
-
-    if (state.riders.length > 0) {
-      renderRiders(state.riders);
-      showAddonsPhase();
-    } else {
-      // No riders — finalize and proceed directly
-      await finalizeAndProceed();
-    }
-  } catch (e) {
-    hideLoading();
-    showError(e.message, () => handleStep2Continue());
-  }
-}
-
-// --- Riders ---
-function renderRiders(riders) {
-  const container = $('riders-container');
-  container.innerHTML = '';
-
-  if (!riders || riders.length === 0) {
-    container.innerHTML = '<p class="text-gray-500 text-center py-8">No optional add-ons available for this plan.</p>';
-    updateRidersTotal(riders);
-    return;
-  }
-
-  const byTraveler = {};
-  riders.forEach(r => {
-    if (!byTraveler[r.travelerID]) byTraveler[r.travelerID] = { description: r.travelerDescription, benefits: [] };
-    byTraveler[r.travelerID].benefits.push(r);
-  });
-
-  Object.entries(byTraveler).forEach(([tid, group]) => {
-    const section = document.createElement('div');
-    section.className = 'bg-gray-50 rounded-xl p-4';
-    const label = travelerLabel(group.description, parseInt(tid, 10));
-    section.innerHTML = `<h4 class="text-sm font-bold text-heading mb-3">${sanitize(label)}</h4>`;
-
-    group.benefits.forEach(b => {
-      const row = document.createElement('label');
-      row.className = 'flex items-center justify-between py-2 text-sm cursor-pointer';
-      const isRequired = b.required === 1;
-      row.innerHTML = `
-        <span class="flex items-center gap-2">
-          <input type="checkbox" class="rider-cb rounded text-primary" data-traveler="${tid}" data-benefit="${b.benefit_ID}" ${b.selected === 1 || isRequired ? 'checked' : ''} ${isRequired ? 'disabled' : ''}>
-          ${sanitize(translateEsToEn(b.benefit_Name))} ${isRequired ? '<span class="text-xs text-gray-400">(included)</span>' : ''}
-        </span>
-        <span class="font-medium text-heading">${formatCurrency(b.premium)}</span>
-      `;
-      section.appendChild(row);
-    });
-    container.appendChild(section);
-  });
-
-  const handler = () => updateRidersTotal(riders);
-  if (container._ridersHandler) container.removeEventListener('change', container._ridersHandler);
-  container._ridersHandler = handler;
-  container.addEventListener('change', handler);
-  updateRidersTotal(riders);
-}
-
-function updateRidersTotal(riders) {
-  const checked = document.querySelectorAll('.rider-cb:checked');
-  if (!riders || riders.length === 0) {
-    if (state.selectedPlan) {
-      const total = state.selectedPlan.coverages.reduce((sum, c) => sum + parseFloat(c.tPrice), 0);
-      state.totalPremium = total;
-      $('riders-total-amount').textContent = formatCurrency(total);
-    }
-    return;
-  }
-  let total = 0;
-  checked.forEach(cb => {
-    const tid = cb.dataset.traveler;
-    const bid = cb.dataset.benefit;
-    const rider = riders.find(r => String(r.travelerID) === tid && String(r.benefit_ID) === bid);
-    if (rider) total += parseFloat(rider.premium);
-  });
-  state.totalPremium = total;
-  $('riders-total-amount').textContent = formatCurrency(total);
-}
-
-// --- Finalize Riders (API Step 5) and proceed to Step 3 ---
-async function handleAddonsFinalize() {
-  await finalizeAndProceed();
-}
-
-async function finalizeAndProceed() {
-  const checked = document.querySelectorAll('.rider-cb:checked');
-  const benefitPairs = [];
-  checked.forEach(cb => {
-    benefitPairs.push(cb.dataset.traveler);
-    benefitPairs.push(cb.dataset.benefit);
-  });
-
-  state.selectedBenefits = benefitPairs.length > 0 ? benefitPairs.join(',') : '';
-  const promo = $('q-promo')?.value.trim() || '';
-
-  showLoading('Finalizing your quote...');
-  try {
     const step5Body = {
       ...state.quoteParams,
       sReferenceID: state.referenceId,
       sPlanID: String(state.selectedPlan.planId),
-      nCoverage: parseInt(state.selectedCoverageIds.split(',')[0], 10),
-      sBenefits: state.selectedBenefits,
-      sPromotionalCode: promo,
+      nCoverage: parseInt(coverageId, 10),
+      sBenefits: '',
+      sPromotionalCode: '',
     };
-    const res = await apiFetch('/api/quote/step5', 'POST', step5Body);
-    if (!res.isSuccess) throw new Error(res.message || 'Failed to finalize quote');
-
-    if (res.data?.details) {
-      const lastItem = res.data.details[res.data.details.length - 1];
+    const step5Res = await apiFetch('/api/quote/step5', 'POST', step5Body);
+    if (!step5Res.isSuccess) throw new Error(step5Res.message || 'Failed to finalize quote');
+    if (step5Res.data?.details?.length) {
+      const lastItem = step5Res.data.details[step5Res.data.details.length - 1];
       if (lastItem?.total) state.totalPremium = parseFloat(lastItem.total);
     }
-
-    // Fallback: if totalPremium is still 0, use plan price
-    if (state.totalPremium === 0 && state.selectedPlan) {
+    if (!state.totalPremium) {
       state.totalPremium = state.selectedPlan.coverages.reduce((sum, c) => sum + parseFloat(c.tPrice), 0);
     }
 
@@ -824,7 +733,7 @@ async function finalizeAndProceed() {
     goToStep(3);
   } catch (e) {
     hideLoading();
-    showError(e.message, () => finalizeAndProceed());
+    showError(e.message, () => handleStep2Continue());
   }
 }
 
@@ -1035,6 +944,16 @@ async function handlePayment() {
   submitBtn.disabled = true;
   showLoading('Processing payment...');
   try {
+    // If we already have a voucher for this reference (user retrying after a
+    // successful submit), skip the API call and go straight to confirmation.
+    const prior = readCachedVoucher(state.referenceId);
+    if (prior) {
+      renderConfirmation(prior);
+      hideLoading();
+      goToStep(4);
+      return;
+    }
+
     const body = {
       sReferenceID: state.referenceId,
       sContactName: contactName,
@@ -1053,9 +972,25 @@ async function handlePayment() {
     };
 
     const res = await apiFetch('/api/quote/step7', 'POST', body);
+
+    // BMI error 8003 = "There is already a voucher for that reference."
+    // If we have the voucher cached locally, show it instead of failing.
+    if (!res.isSuccess && /\b8003\b/.test(res.message || '')) {
+      const cached = readCachedVoucher(state.referenceId);
+      if (cached) {
+        renderConfirmation(cached);
+        hideLoading();
+        goToStep(4);
+        return;
+      }
+      throw new Error(`A voucher was already issued for this booking (reference ${state.referenceId}). Please check your email for the voucher, or contact support with this reference ID.`);
+    }
+
     if (!res.isSuccess) throw new Error(res.message || 'Payment failed');
 
-    const details = res.data?.details || res.data || {};
+    // BMI returns details as an array: data.details[0] holds voucher/transaction fields.
+    const details = res.data?.details?.[0] || res.data?.details || res.data || {};
+    cacheVoucher(state.referenceId, details);
     renderConfirmation(details);
     hideLoading();
     goToStep(4);
@@ -1100,6 +1035,27 @@ function renderConfirmation(details) {
 // ============================================================
 // Utilities
 // ============================================================
+
+// Voucher cache — lets us recover from BMI error 8003 ("voucher already exists"),
+// which happens when the user double-clicks Pay or retries after a network blip.
+const VOUCHER_CACHE_KEY = 'tripkavach_voucher_v1';
+
+function cacheVoucher(referenceId, details) {
+  if (!referenceId || !details) return;
+  try {
+    const store = JSON.parse(localStorage.getItem(VOUCHER_CACHE_KEY) || '{}');
+    store[referenceId] = { details, savedAt: Date.now() };
+    localStorage.setItem(VOUCHER_CACHE_KEY, JSON.stringify(store));
+  } catch { /* localStorage unavailable — recovery just won't work */ }
+}
+
+function readCachedVoucher(referenceId) {
+  if (!referenceId) return null;
+  try {
+    const store = JSON.parse(localStorage.getItem(VOUCHER_CACHE_KEY) || '{}');
+    return store[referenceId]?.details || null;
+  } catch { return null; }
+}
 
 async function apiFetch(url, method = 'GET', body = null) {
   if (!navigator.onLine) {

@@ -78,7 +78,10 @@ export default async function handler(req, res) {
         sCardNumber: String(req.body.sCardNumber).replace(/\s/g, ''),
         nCardType: parseInt(req.body.nCardType, 10),
         sCardName: String(req.body.sCardName).slice(0, 200),
-        sCardCVV: String(req.body.sCardCVV || '').slice(0, 4),
+        // BMI's Step 7 payment gateway requires the CVV as "cvv" (lowercase, no prefix).
+        // Their API doc lists "sCardCVV", but that field is silently ignored and the
+        // gateway returns "source.card.securityCode invalid or missing" — verified 2026-04.
+        cvv: String(req.body.sCardCVV || '').slice(0, 4),
         nCardMonth: parseInt(req.body.nCardMonth, 10),
         nCardYear: parseInt(req.body.nCardYear, 10),
         sPayerEmail: String(req.body.sPayerEmail || '').slice(0, 200),

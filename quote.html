@@ -110,6 +110,20 @@
           <button id="error-retry" class="hidden text-red-700 font-medium underline whitespace-nowrap hover:text-red-900" type="button">Retry</button>
         </div>
 
+        <!-- Recent Voucher Recovery Banner -->
+        <div id="voucher-recovery-banner" class="hidden mb-6 bg-green-50 border border-green-200 rounded-xl p-4" role="status" aria-live="polite">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-heading text-sm">You have a recent voucher</p>
+              <p class="text-xs text-gray-600 mt-1">Voucher <span id="voucher-recovery-code" class="font-mono font-semibold text-heading"></span> &middot; issued <span id="voucher-recovery-date"></span>.</p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+              <button id="voucher-recovery-view" type="button" class="text-xs font-semibold bg-primary text-white px-3 py-2 rounded-lg hover:bg-primary/90 transition-colors">View voucher</button>
+              <button id="voucher-recovery-dismiss" type="button" class="text-xs font-medium text-gray-500 hover:text-gray-700 px-2" aria-label="Dismiss">&times;</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Step 1: Trip Details -->
         <div id="wizard-step-1" class="wizard-step">
           <h2 class="text-xl md:text-2xl font-bold text-heading mb-6">Trip Details</h2>
@@ -164,31 +178,44 @@
         <div id="wizard-step-2" class="wizard-step hidden">
           <!-- Plans sub-section -->
           <div id="step2-plans">
+            <!-- Trip summary (populated from Step 1 values) -->
+            <div id="step2-trip-summary" class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6 print:bg-white print:border-gray-400">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 text-sm">
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide">Travelers</p>
+                  <p id="trip-summary-travelers" class="font-semibold text-heading truncate"></p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide">Destination</p>
+                  <p id="trip-summary-destination" class="font-semibold text-heading truncate"></p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide">Dates</p>
+                  <p id="trip-summary-dates" class="font-semibold text-heading"></p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide">Duration</p>
+                  <p id="trip-summary-duration" class="font-semibold text-heading"></p>
+                </div>
+              </div>
+            </div>
             <h2 class="text-xl md:text-2xl font-bold text-heading mb-2">Choose Your Coverage</h2>
             <p class="text-gray-500 mb-6">Select the coverage tier that fits your trip.</p>
             <div id="plans-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             <p id="plan-hint" class="text-sm text-gray-400 text-center mt-4">Click a card to select your coverage</p>
-            <div class="mt-8 flex justify-between">
+            <div class="mt-8 flex flex-wrap items-center justify-between gap-3">
               <button id="step2-back" class="text-gray-600 hover:text-gray-800 font-medium py-3 px-6 rounded-lg transition-colors border border-gray-300 hover:border-gray-400">Back</button>
-              <button id="step2-next" class="bg-primary hover:bg-primary-hover text-white font-medium py-3 px-8 rounded-lg transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>Continue</button>
-            </div>
-          </div>
-          <!-- Add-ons sub-section -->
-          <div id="step2-addons" class="hidden">
-            <h2 class="text-xl md:text-2xl font-bold text-heading mb-2">Optional Add-ons</h2>
-            <p class="text-gray-500 mb-6">Customize your coverage with optional riders.</p>
-            <div id="riders-container" class="space-y-3"></div>
-            <div id="riders-total" class="mt-6 bg-blue-50 rounded-xl p-4 text-center">
-              <p class="text-sm text-gray-600">Total Premium</p>
-              <p id="riders-total-amount" class="text-3xl font-bold text-primary">$0.00</p>
-            </div>
-            <div class="mt-4">
-              <label for="q-promo" class="block text-sm font-medium text-gray-700 mb-1">Promo Code <span class="text-gray-400 font-normal">(optional)</span></label>
-              <input type="text" id="q-promo" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter promo code">
-            </div>
-            <div class="mt-8 flex justify-between">
-              <button id="step2-addons-back" class="text-gray-600 hover:text-gray-800 font-medium py-3 px-6 rounded-lg transition-colors border border-gray-300 hover:border-gray-400">Back to Plans</button>
-              <button id="step2-addons-next" class="bg-primary hover:bg-primary-hover text-white font-medium py-3 px-8 rounded-lg transition-colors text-lg">Continue</button>
+              <div class="flex gap-2 order-last sm:order-none w-full sm:w-auto justify-center print:hidden">
+                <button id="step2-print-btn" type="button" class="font-medium text-primary hover:bg-primary/10 border border-primary/40 rounded-lg py-3 px-5 flex items-center gap-2 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                  Print Quote
+                </button>
+                <button id="step2-email-btn" type="button" disabled class="font-medium text-gray-400 border border-gray-200 rounded-lg py-3 px-5 flex items-center gap-2 cursor-not-allowed" title="Email quote — coming soon">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  Email Quote (soon)
+                </button>
+              </div>
+              <button id="step2-next" class="bg-primary hover:bg-primary-hover text-white font-medium py-3 px-8 rounded-lg transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>Continue to Payment</button>
             </div>
           </div>
         </div>
@@ -249,6 +276,23 @@
 
             <h3 class="font-bold text-heading mt-6">Traveler Details</h3>
             <div id="traveler-details-container" class="space-y-4"></div>
+
+            <h3 class="font-bold text-heading mt-6">Emergency Contact</h3>
+            <p class="text-xs text-gray-500 -mt-2">Who should we contact on your behalf in an emergency?</p>
+            <div class="grid md:grid-cols-2 gap-5">
+              <div>
+                <label for="pay-emergency-name" class="block text-sm font-medium text-gray-700 mb-1">Contact Name</label>
+                <input type="text" id="pay-emergency-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Full name">
+              </div>
+              <div>
+                <label for="pay-emergency-phone" class="block text-sm font-medium text-gray-700 mb-1">Contact Phone</label>
+                <input type="tel" id="pay-emergency-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="+1 555-555-5555">
+              </div>
+            </div>
+            <div>
+              <label for="pay-emergency-relation" class="block text-sm font-medium text-gray-700 mb-1">Relationship <span class="text-gray-400 font-normal">(optional)</span></label>
+              <input type="text" id="pay-emergency-relation" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Spouse, parent, friend, etc.">
+            </div>
 
             <h3 class="font-bold text-heading mt-6">Card Details</h3>
             <div>
