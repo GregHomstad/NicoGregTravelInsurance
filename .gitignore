@@ -11,6 +11,12 @@ dist/
 .env.*.local
 server/.env
 
+# Local-only debug scripts (contain hardcoded sandbox credentials)
+scripts/
+
+# Claude Code local settings
+.claude/settings.local.json
+
 # Editor
 .vscode/
 .idea/
