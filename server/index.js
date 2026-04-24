@@ -35,6 +35,7 @@ if (!PROXY_API_KEY) {
 }
 
 const FETCH_TIMEOUT = 20_000; // 20s timeout for upstream BMI calls
+const PAYMENT_FETCH_TIMEOUT = 90_000; // 90s for BMI Step 7 — card processing can be slow
 
 // --- Supabase (consent record persistence) ---
 const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -144,8 +145,14 @@ async function getToken() {
   return tokenPromise;
 }
 
-// --- BMI API Helpers (with timeout + status checks) ---
-async function bmiPost(endpoint, body) {
+function invalidateToken() {
+  cachedToken = null;
+  tokenExpiry = 0;
+}
+
+// --- BMI API Helpers (with timeout + status checks + 401 auto-retry) ---
+async function bmiPost(endpoint, body, opts = {}) {
+  const { timeout = FETCH_TIMEOUT, _retrying = false } = opts;
   const token = await getToken();
   const url = `${BMI_BASE}${endpoint}`;
   try {
@@ -156,8 +163,13 @@ async function bmiPost(endpoint, body) {
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(FETCH_TIMEOUT),
+      signal: AbortSignal.timeout(timeout),
     });
+    if (res.status === 401 && !_retrying) {
+      console.warn(`[BMI] POST ${endpoint} got 401 — refreshing token and retrying once`);
+      invalidateToken();
+      return bmiPost(endpoint, body, { ...opts, _retrying: true });
+    }
     if (!res.ok) {
       const text = await res.text().catch(() => '');
       console.error(`[BMI] POST ${endpoint} returned ${res.status}: ${text}`);
@@ -166,14 +178,14 @@ async function bmiPost(endpoint, body) {
     return res.json();
   } catch (e) {
     if (e.name === 'TimeoutError' || e.name === 'AbortError') {
-      console.error(`[BMI] POST ${endpoint} TIMEOUT after ${FETCH_TIMEOUT}ms`);
+      console.error(`[BMI] POST ${endpoint} TIMEOUT after ${timeout}ms`);
       throw new Error('BMI API request timed out');
     }
     throw e;
   }
 }
 
-async function bmiGet(endpoint, params = {}) {
+async function bmiGet(endpoint, params = {}, _retrying = false) {
   const token = await getToken();
   const qs = new URLSearchParams(params).toString();
   const url = qs ? `${BMI_BASE}${endpoint}?${qs}` : `${BMI_BASE}${endpoint}`;
@@ -182,6 +194,11 @@ async function bmiGet(endpoint, params = {}) {
     headers: { 'Authorization': `Bearer ${token}` },
     signal: AbortSignal.timeout(FETCH_TIMEOUT),
   });
+  if (res.status === 401 && !_retrying) {
+    console.warn(`[BMI] GET ${endpoint} got 401 — refreshing token and retrying once`);
+    invalidateToken();
+    return bmiGet(endpoint, params, true);
+  }
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     console.error(`[BMI] GET ${endpoint} returned ${res.status}: ${text.slice(0, 200)}`);
@@ -418,7 +435,10 @@ app.post('/api/quote/step7', async (req, res) => {
       sCardNumber: String(req.body.sCardNumber).replace(/\s/g, ''),
       nCardType: parseInt(req.body.nCardType, 10),
       sCardName: String(req.body.sCardName).slice(0, 200),
-      sCardCVV: String(req.body.sCardCVV || '').slice(0, 4),
+      // BMI's Step 7 payment gateway requires the CVV as "cvv" (lowercase, no prefix).
+      // Their API doc lists "sCardCVV", but that field is silently ignored and the
+      // gateway returns "source.card.securityCode invalid or missing" — verified 2026-04.
+      cvv: String(req.body.sCardCVV || '').slice(0, 4),
       nCardMonth: parseInt(req.body.nCardMonth, 10),
       nCardYear: parseInt(req.body.nCardYear, 10),
       sPayerEmail: String(req.body.sPayerEmail || '').slice(0, 200),
@@ -434,11 +454,17 @@ app.post('/api/quote/step7', async (req, res) => {
         passportNumber: String(t.passportNumber || '').slice(0, 30),
       })),
     };
-    const data = await bmiPost('/api/v1/ecommerce/Bmita/BmitaPremiumCalculationStep7', body);
+    const data = await bmiPost('/api/v1/ecommerce/Bmita/BmitaPremiumCalculationStep7', body, { timeout: PAYMENT_FETCH_TIMEOUT });
     res.json(data);
   } catch (e) {
     console.error('[Step7]', e.message);
-    res.status(500).json({ isSuccess: false, message: 'Payment processing failed' });
+    const isTimeout = /timed out/i.test(e.message || '');
+    res.status(isTimeout ? 504 : 500).json({
+      isSuccess: false,
+      message: isTimeout
+        ? 'The payment processor is taking longer than expected. Please do NOT re-submit — check your email or contact support with your reference ID before retrying.'
+        : 'Payment processing failed',
+    });
   }
 });
 
